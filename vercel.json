@@ -1,0 +1,8 @@
+{
+  "framework": null,
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/",        "destination": "/project/index.html" },
+    { "source": "/:path*",  "destination": "/project/:path*" }
+  ]
+}
