@@ -1,0 +1,11 @@
+/* ============================================================
+   Tendix Design System — global stylesheet entry point.
+   Consumers link THIS file. It is a manifest of @imports only.
+   ============================================================ */
+
+@import url('./tokens/fonts.css');
+@import url('./tokens/colors.css');
+@import url('./tokens/typography.css');
+@import url('./tokens/spacing.css');
+@import url('./components/fig-tokens.css');  /* raw Figma MUI/Minimal tokens */
+@import url('./tokens/base.css');

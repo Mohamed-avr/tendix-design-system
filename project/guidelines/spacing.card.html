@@ -1,0 +1,33 @@
+<!-- @dsCard group="Spacing" viewport="700x150" name="Spacing scale" subtitle="4px base grid — the rhythm of every screen" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; padding: 24px; background: var(--tx-surface); }
+  .row { display: flex; gap: 16px; align-items: flex-end; }
+  .sw { text-align: center; }
+  .bar { background: var(--tx-accent); border-radius: 4px; width: 28px; }
+  .nm { font: 600 11px var(--tx-font-data); color: var(--tx-text-tertiary); margin-top: 8px; }
+</style>
+</head>
+<body>
+<div id="tx-back-nav" style="position:fixed;top:16px;left:20px;z-index:9999;">
+  <a href="../index.html" style="display:inline-flex;align-items:center;gap:8px;font:600 14px 'Urbanist',system-ui,sans-serif;color:rgb(25,23,23);text-decoration:none;padding:9px 18px 9px 14px;background:rgba(255,255,255,0.92);border:1px solid rgb(227,227,227);border-radius:999px;box-shadow:0 4px 18px rgba(0,0,0,.12);backdrop-filter:blur(12px);transition:box-shadow .15s ease;">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0"><path d="M10 3L5 8l5 5" stroke="rgb(25,23,23)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back to Docs
+  </a>
+</div>
+<div class="row">
+  <div class="sw"><div class="bar" style="height:var(--tx-space-1)"></div><div class="nm">1·4</div></div>
+  <div class="sw"><div class="bar" style="height:var(--tx-space-2)"></div><div class="nm">2·8</div></div>
+  <div class="sw"><div class="bar" style="height:var(--tx-space-3)"></div><div class="nm">3·12</div></div>
+  <div class="sw"><div class="bar" style="height:var(--tx-space-4)"></div><div class="nm">4·16</div></div>
+  <div class="sw"><div class="bar" style="height:var(--tx-space-5)"></div><div class="nm">5·20</div></div>
+  <div class="sw"><div class="bar" style="height:var(--tx-space-6)"></div><div class="nm">6·24</div></div>
+  <div class="sw"><div class="bar" style="height:var(--tx-space-8)"></div><div class="nm">8·32</div></div>
+  <div class="sw"><div class="bar" style="height:var(--tx-space-12)"></div><div class="nm">12·48</div></div>
+</div>
+</body>
+</html>

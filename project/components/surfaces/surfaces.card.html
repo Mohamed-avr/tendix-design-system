@@ -1,0 +1,56 @@
+<!-- @dsCard group="Components" viewport="700x320" name="Surfaces & navigation" subtitle="Card, tabs, pagination, progress" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 28px; background: var(--tx-bg); }
+  .row { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; margin-bottom: 18px; }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+</head>
+<body>
+<div id="tx-back-nav" style="position:fixed;top:16px;left:20px;z-index:9999;">
+  <a href="../../index.html" style="display:inline-flex;align-items:center;gap:8px;font:600 14px 'Urbanist',system-ui,sans-serif;color:rgb(25,23,23);text-decoration:none;padding:9px 18px 9px 14px;background:rgba(255,255,255,0.92);border:1px solid rgb(227,227,227);border-radius:999px;box-shadow:0 4px 18px rgba(0,0,0,.12);backdrop-filter:blur(12px);transition:box-shadow .15s ease;">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0"><path d="M10 3L5 8l5 5" stroke="rgb(25,23,23)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back to Docs
+  </a>
+</div>
+<div id="root"></div>
+<script type="text/babel">
+const { Card, Tabs, Pagination, ProgressCircular } = window.DesignSystem_83ace9;
+function Demo() {
+  const [t, setT] = React.useState('all');
+  const [p, setP] = React.useState(4);
+  return (
+    <div>
+      <div className="row">
+        <Card style={{width:240}}>
+          <div style={{font:'700 18px var(--tx-font-display)',color:'var(--tx-text-strong)'}}>Card surface</div>
+          <div style={{font:'400 14px var(--tx-font-ui)',color:'var(--tx-text-tertiary)',marginTop:6}}>White · 24px radius · soft shadow</div>
+        </Card>
+        <Card inset style={{width:240}}>
+          <div style={{font:'700 16px var(--tx-font-display)',color:'var(--tx-text-strong)'}}>Inset row</div>
+          <div style={{font:'400 13px var(--tx-font-ui)',color:'var(--tx-text-tertiary)',marginTop:4}}>Sunken grey, no shadow</div>
+        </Card>
+        <div style={{display:'flex',gap:16,alignItems:'center'}}>
+          <ProgressCircular value={72} />
+          <ProgressCircular />
+        </div>
+      </div>
+      <div className="row" style={{gap:32}}>
+        <Tabs value={t} onChange={setT} items={[{value:'all',label:'All'},{value:'present',label:'Present'},{value:'absent',label:'Absent'}]} />
+        <Tabs variant="pill" value={t} onChange={setT} items={[{value:'all',label:'Month'},{value:'present',label:'Week'},{value:'absent',label:'Day'}]} />
+      </div>
+      <div className="row"><Pagination count={5} page={p} onChange={setP} /></div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script>
+</body>
+</html>

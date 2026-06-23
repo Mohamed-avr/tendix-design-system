@@ -1,0 +1,30 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Role accents" subtitle="Tendix is role-themed: Student amber · Profs blue · Admin green · ink" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; padding: 20px; background: var(--tx-surface); }
+  .row { display: flex; gap: 14px; }
+  .sw { flex: 1; }
+  .chip { height: 64px; border-radius: 14px; }
+  .nm { font: 700 13px var(--tx-font-ui); color: var(--tx-text-strong); margin-top: 8px; }
+  .hex { font: 500 12px var(--tx-font-data); color: var(--tx-text-tertiary); }
+</style>
+</head>
+<body>
+<div id="tx-back-nav" style="position:fixed;top:16px;left:20px;z-index:9999;">
+  <a href="../index.html" style="display:inline-flex;align-items:center;gap:8px;font:600 14px 'Urbanist',system-ui,sans-serif;color:rgb(25,23,23);text-decoration:none;padding:9px 18px 9px 14px;background:rgba(255,255,255,0.92);border:1px solid rgb(227,227,227);border-radius:999px;box-shadow:0 4px 18px rgba(0,0,0,.12);backdrop-filter:blur(12px);transition:box-shadow .15s ease;">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0"><path d="M10 3L5 8l5 5" stroke="rgb(25,23,23)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back to Docs
+  </a>
+</div>
+<div class="row">
+  <div class="sw"><div class="chip" style="background:var(--tx-student)"></div><div class="nm">Student</div><div class="hex">rgb(227,147,27)</div></div>
+  <div class="sw"><div class="chip" style="background:var(--tx-profs)"></div><div class="nm">Profs</div><div class="hex">rgb(61,110,253)</div></div>
+  <div class="sw"><div class="chip" style="background:var(--tx-admin)"></div><div class="nm">Admin</div><div class="hex">rgb(36,138,61)</div></div>
+  <div class="sw"><div class="chip" style="background:var(--tx-ink)"></div><div class="nm">Ink</div><div class="hex">rgb(25,23,23)</div></div>
+</div>
+</body>
+</html>

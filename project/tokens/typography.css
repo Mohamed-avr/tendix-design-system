@@ -1,0 +1,44 @@
+/* ============================================================
+   Tendix — Typography tokens
+   Urbanist is the brand face: rounded-geometric, friendly,
+   used for everything from the wordmark to body copy.
+   Inter backs up numerals / dense data. Cairo handles Arabic.
+   ============================================================ */
+
+:root {
+  /* Families */
+  --tx-font-display: 'Urbanist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --tx-font-ui: 'Urbanist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --tx-font-body: 'Urbanist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --tx-font-data: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --tx-font-arabic: 'Cairo', 'Tajawal', sans-serif;
+
+  /* Weights */
+  --tx-w-light: 300;    /* @kind other */
+  --tx-w-regular: 400;  /* @kind other */
+  --tx-w-medium: 500;   /* @kind other */
+  --tx-w-semibold: 600; /* @kind other */
+  --tx-w-bold: 700;     /* @kind other */
+  --tx-w-black: 900;    /* @kind other */
+
+  /* Type scale (px) — sampled from the app screens */
+  --tx-text-display: 44px;   /* logo wordmark / hero headline       */
+  --tx-text-h1: 32px;        /* big uppercase headlines             */
+  --tx-text-h2: 24px;        /* screen titles ("Attendances")       */
+  --tx-text-h3: 20px;        /* section titles ("Your Started…")    */
+  --tx-text-lg: 18px;        /* card emphasis                       */
+  --tx-text-base: 16px;      /* body / list primary                 */
+  --tx-text-sm: 14px;        /* secondary text, labels              */
+  --tx-text-xs: 12px;        /* meta, captions, dates               */
+  --tx-text-2xs: 10px;       /* micro labels, badges                */
+
+  /* Line heights */
+  --tx-leading-tight: 1.05;  /* display / uppercase headlines       */
+  --tx-leading-snug: 1.2;    /* titles                              */
+  --tx-leading-normal: 1.45; /* body                                */
+
+  /* Tracking */
+  --tx-tracking-tight: -0.02em;
+  --tx-tracking-normal: 0;
+  --tx-tracking-wide: 0.04em;  /* uppercase labels                  */
+}

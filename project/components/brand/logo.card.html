@@ -1,0 +1,43 @@
+<!-- @dsCard group="Brand" viewport="700x300" name="Logo" subtitle="Cap mark + wordmark, role-themed" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 0; background: var(--tx-bg); }
+  .wrap { display: grid; grid-template-columns: 1fr 1fr; }
+  .cell { padding: 26px 30px; display: flex; align-items: center; gap: 30px; border-bottom: 1px solid var(--tx-border); }
+  .dark { background: var(--tx-ink); border-bottom-color: rgba(255,255,255,.08); }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+</head>
+<body>
+<div id="tx-back-nav" style="position:fixed;top:16px;left:20px;z-index:9999;">
+  <a href="../../index.html" style="display:inline-flex;align-items:center;gap:8px;font:600 14px 'Urbanist',system-ui,sans-serif;color:rgb(25,23,23);text-decoration:none;padding:9px 18px 9px 14px;background:rgba(255,255,255,0.92);border:1px solid rgb(227,227,227);border-radius:999px;box-shadow:0 4px 18px rgba(0,0,0,.12);backdrop-filter:blur(12px);transition:box-shadow .15s ease;">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0"><path d="M10 3L5 8l5 5" stroke="rgb(25,23,23)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back to Docs
+  </a>
+</div>
+<div id="root"></div>
+<script type="text/babel">
+const { Logo } = window.DesignSystem_83ace9;
+function Demo() {
+  return (
+    <div className="wrap">
+      <div className="cell"><Logo size={40} /></div>
+      <div className="cell"><Logo variant="mark" size={48} /></div>
+      <div className="cell"><Logo role="student" size={36} /></div>
+      <div className="cell"><Logo role="profs" size={36} /></div>
+      <div className="cell"><Logo role="admin" size={36} /></div>
+      <div className="cell dark"><Logo onDark size={36} /></div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script>
+</body>
+</html>

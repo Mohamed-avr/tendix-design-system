@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tendix Design System</title>
+<meta name="description" content="Design tokens, React components, and UI kits for the Tendix university attendance platform." />
+<link rel="stylesheet" href="./styles.css" />
+<meta name="ext-resource-dependency" content="https://unpkg.com/react@18.3.1/umd/react.development.js" />
+<meta name="ext-resource-dependency" content="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" />
+<meta name="ext-resource-dependency" content="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" />
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--tx-bg, #efefef);
+  color: var(--tx-text, #242424);
+  font-family: var(--tx-font-ui, 'Urbanist', system-ui, sans-serif);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ── layout ── */
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+@media (max-width: 700px) { .wrap { padding: 0 20px; } }
+
+/* ── top nav ── */
+.topnav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(239,239,239,.88);
+  backdrop-filter: saturate(1.6) blur(16px);
+  border-bottom: 1px solid var(--tx-border, #e3e3e3);
+}
+.topnav .wrap { height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.topnav-brand { display: flex; align-items: center; gap: 10px; font-family: var(--tx-font-display); font-weight: 700; font-size: 20px; letter-spacing: -.02em; color: var(--tx-text-strong, #11141b); }
+.topnav-links { display: flex; gap: 6px; }
+.topnav-links a { font-size: 13.5px; font-weight: 600; color: var(--tx-text-secondary, #494444); padding: 6px 12px; border-radius: 8px; transition: background .12s, color .12s; }
+.topnav-links a:hover { background: rgba(0,0,0,.06); color: var(--tx-text-strong, #11141b); }
+@media (max-width: 600px) { .topnav-links { display: none; } }
+
+/* ── hero ── */
+.hero { padding: 52px 0 44px; }
+.hero-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; }
+.hero-eyebrow span { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--tx-text-tertiary, #999); white-space: nowrap; }
+.hero-eyebrow hr { flex: 1; border: none; border-top: 1px solid var(--tx-border, #e3e3e3); }
+.hero h1 { font-family: var(--tx-font-display); font-weight: 800; font-size: clamp(34px, 4.8vw, 60px); line-height: 1.05; letter-spacing: -.03em; color: var(--tx-text-strong, #11141b); margin-bottom: 18px; }
+.hero h1 em { font-style: normal; color: var(--tx-student, #e3931b); }
+.hero p.lede { font-size: clamp(15px, 1.6vw, 17px); color: var(--tx-text-secondary, #494444); max-width: 580px; line-height: 1.6; margin-bottom: 26px; }
+.hero-roles { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.role-pill { display: inline-flex; align-items: center; gap: 7px; padding: 6px 14px; background: #fff; border: 1px solid var(--tx-border, #e3e3e3); border-radius: 999px; font-size: 12.5px; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,.05); white-space: nowrap; }
+.role-dot { width: 9px; height: 9px; border-radius: 999px; }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 999px; font-weight: 700; font-size: 14px; cursor: pointer; border: 1px solid transparent; transition: all .14s ease; white-space: nowrap; }
+.btn-primary { background: var(--tx-ink, #191717); color: #fff; }
+.btn-primary:hover { background: #2f2c2c; }
+.btn-outline { background: #fff; color: var(--tx-ink, #191717); border-color: var(--tx-border, #e3e3e3); box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+.btn-outline:hover { background: #fafafa; box-shadow: 0 4px 18px rgba(0,0,0,.09); }
+
+/* ── section ── */
+.section { padding: 44px 0; border-top: 1px solid var(--tx-border, #e3e3e3); }
+.section-head { margin-bottom: 28px; }
+.section-kicker { font-size: 11.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--tx-student, #e3931b); margin-bottom: 10px; }
+.section-title { font-family: var(--tx-font-display); font-weight: 800; font-size: clamp(22px, 2.8vw, 30px); letter-spacing: -.025em; color: var(--tx-text-strong, #11141b); line-height: 1.1; margin-bottom: 8px; }
+.section-sub { font-size: 15.5px; color: var(--tx-text-secondary, #494444); max-width: 600px; line-height: 1.6; }
+
+/* ── quick start ── */
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 780px) { .steps { grid-template-columns: 1fr; } }
+.step { background: #fff; border: 1px solid var(--tx-border, #e3e3e3); border-radius: 20px; padding: 26px; box-shadow: 0 2px 12px rgba(0,0,0,.04); }
+.step-num { width: 28px; height: 28px; background: var(--tx-ink, #191717); color: #fff; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; margin-bottom: 16px; }
+.step h3 { font-size: 15px; font-weight: 700; color: var(--tx-text-strong, #11141b); margin-bottom: 12px; }
+pre.snippet { background: var(--tx-ink, #191717); color: #f4f4f4; border-radius: 12px; padding: 16px 18px; font-family: var(--tx-font-data, 'Inter', monospace); font-size: 12.5px; line-height: 1.7; overflow-x: auto; white-space: pre; }
+pre.snippet .c { color: #706c6c; }
+pre.snippet .k { color: #ffc87a; }
+pre.snippet .s { color: #88d3b2; }
+
+/* ── components grid ── */
+.comp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 780px) { .comp-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 500px) { .comp-grid { grid-template-columns: 1fr; } }
+.comp-card { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--tx-border, #e3e3e3); border-radius: 20px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,.04); transition: transform .15s ease, box-shadow .15s ease; overflow: hidden; }
+.comp-card:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(0,0,0,.09); }
+.comp-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+.comp-accent { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.comp-card h3 { font-size: 16px; font-weight: 700; color: var(--tx-text-strong, #11141b); margin-bottom: 6px; }
+.comp-members { font-family: var(--tx-font-data, 'Inter'); font-size: 12px; color: var(--tx-text-tertiary, #999); line-height: 1.7; flex: 1; }
+.comp-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 18px; padding: 9px 16px; background: var(--tx-bg, #efefef); border: 1px solid var(--tx-border, #e3e3e3); border-radius: 999px; font-size: 13px; font-weight: 700; color: var(--tx-text-strong, #11141b); align-self: flex-start; transition: background .12s; }
+.comp-card:hover .comp-link { background: var(--tx-ink, #191717); color: #fff; border-color: var(--tx-ink, #191717); }
+
+/* ── live demo ── */
+.demo-wrap { background: #fff; border: 1px solid var(--tx-border, #e3e3e3); border-radius: 24px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,.04); }
+.demo-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--tx-bg, #efefef); }
+.demo-row:last-child { border-bottom: none; padding-bottom: 0; }
+.demo-row:first-child { padding-top: 0; }
+.demo-label { width: 82px; flex-shrink: 0; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--tx-text-tertiary, #999); }
+
+/* ── tokens ── */
+.token-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.token-swatch { background: #fff; border: 1px solid var(--tx-border, #e3e3e3); border-radius: 16px; overflow: hidden; }
+.token-chip { height: 56px; }
+.token-meta { padding: 10px 13px; }
+.token-meta strong { display: block; font-size: 13px; font-weight: 700; color: var(--tx-text-strong, #11141b); margin-bottom: 2px; }
+.token-meta code { font-family: var(--tx-font-data, 'Inter'); font-size: 11px; color: var(--tx-text-tertiary, #999); }
+
+/* ── guidelines ── */
+.guide-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+.guide-card { display: block; background: #fff; border: 1px solid var(--tx-border, #e3e3e3); border-radius: 18px; padding: 20px 22px; box-shadow: 0 2px 10px rgba(0,0,0,.04); transition: transform .14s, box-shadow .14s; }
+.guide-card:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,.09); }
+.guide-card-label { font-size: 11px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--tx-text-tertiary, #999); margin-bottom: 6px; }
+.guide-card h4 { font-size: 15px; font-weight: 700; color: var(--tx-text-strong, #11141b); }
+.guide-card .guide-arrow { display: inline-flex; align-items: center; gap: 5px; margin-top: 12px; font-size: 12.5px; font-weight: 700; color: var(--tx-text-secondary, #494444); }
+.guide-card:hover .guide-arrow { color: var(--tx-ink, #191717); }
+
+/* ── UI kit ── */
+.kit-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 640px) { .kit-row { grid-template-columns: 1fr; } }
+.kit-card { background: #fff; border: 1px solid var(--tx-border, #e3e3e3); border-radius: 20px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,.04); }
+.kit-card.active { cursor: pointer; transition: transform .15s, box-shadow .15s; }
+.kit-card.active:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(0,0,0,.09); }
+.kit-badge { display: inline-flex; align-items: center; gap: 7px; padding: 5px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; margin-bottom: 14px; }
+.kit-card h3 { font-size: 18px; font-weight: 800; color: var(--tx-text-strong, #11141b); margin-bottom: 8px; letter-spacing: -.01em; }
+.kit-card p { font-size: 14px; color: var(--tx-text-secondary, #494444); line-height: 1.6; margin-bottom: 20px; }
+.kit-card .kit-link { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; background: var(--tx-ink, #191717); color: #fff; border-radius: 999px; font-size: 13.5px; font-weight: 700; transition: background .14s; }
+.kit-card .kit-link:hover { background: #2f2c2c; }
+.kit-card.dim { opacity: .55; }
+
+/* ── footer ── */
+footer { padding: 40px 0 56px; border-top: 1px solid var(--tx-border, #e3e3e3); }
+footer .wrap { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+.footer-brand { font-family: var(--tx-font-display); font-weight: 800; font-size: 18px; letter-spacing: -.02em; color: var(--tx-text-strong, #11141b); }
+.footer-note { font-size: 13px; color: var(--tx-text-tertiary, #999); margin-top: 4px; }
+.footer-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.tag { font-family: var(--tx-font-data, 'Inter'); font-size: 11.5px; background: #fff; border: 1px solid var(--tx-border, #e3e3e3); padding: 5px 11px; border-radius: 999px; color: var(--tx-text-secondary, #494444); }
+</style>
+</head>
+<body>
+
+<!-- top nav -->
+<nav class="topnav">
+  <div class="wrap">
+    <div class="topnav-brand" id="logo-slot">Tendix</div>
+    <div class="topnav-links">
+      <a href="#quickstart">Quick start</a>
+      <a href="docs.html">Components</a>
+      <a href="#tokens">Tokens</a>
+      <a href="#guidelines">Guidelines</a>
+      <a href="ui_kits/student/index.html">Student app ↗</a>
+    </div>
+  </div>
+</nav>
+
+<!-- hero -->
+<div class="wrap hero">
+  <div class="hero-eyebrow">
+    <span>Tendix · University Attendance Platform</span>
+    <hr />
+  </div>
+  <h1>Design with <em>purpose.</em></h1>
+  <p class="lede">Tokens, React components and full-screen UI kits for a role-based attendance system. One stylesheet, one bundle — consistent by default.</p>
+  <div class="hero-roles">
+    <span class="role-pill"><span class="role-dot" style="background:var(--tx-student,#e3931b)"></span>Student · Amber</span>
+    <span class="role-pill"><span class="role-dot" style="background:var(--tx-profs,#3d6efd)"></span>Profs · Blue</span>
+    <span class="role-pill"><span class="role-dot" style="background:var(--tx-admin,#248a3d)"></span>Admin · Green</span>
+  </div>
+  <div class="hero-ctas">
+    <a class="btn btn-primary" href="#quickstart">Get started</a>
+    <a class="btn btn-outline" href="ui_kits/student/index.html">Open Student app ↗</a>
+  </div>
+</div>
+
+<!-- quick start -->
+<section class="section" id="quickstart">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-kicker">Quick start</p>
+      <h2 class="section-title">Two files, zero build step.</h2>
+      <p class="section-sub">Link one stylesheet, load one bundle, and every component is ready under a single global namespace.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Link the stylesheet</h3>
+        <pre class="snippet"><span class="c">&lt;!-- tokens + fonts --&gt;</span>
+&lt;<span class="k">link</span> rel=<span class="s">"stylesheet"</span>
+  href=<span class="s">"/styles.css"</span>&gt;</pre>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Load the bundle</h3>
+        <pre class="snippet"><span class="c">&lt;!-- React 18 first --&gt;</span>
+&lt;<span class="k">script</span> src=<span class="s">"react.js"</span>&gt;&lt;/<span class="k">script</span>&gt;
+&lt;<span class="k">script</span> src=<span class="s">"/_ds_bundle.js"</span>&gt;&lt;/<span class="k">script</span>&gt;</pre>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Use components</h3>
+        <pre class="snippet"><span class="k">const</span> { Button, Logo,
+  StatusBadge, Icon }
+  = window.<span class="k">DesignSystem_83ace9</span>;</pre>
+      </div>
+    </div>
+    <div class="step" style="margin-top:16px;">
+      <h3 style="margin-bottom:12px;">Role theming — one attribute</h3>
+      <pre class="snippet"><span class="c">&lt;!-- set data-role on any container to retheme --tx-accent --&gt;</span>
+&lt;div <span class="k">data-role</span>=<span class="s">"student"</span>&gt; <span class="c">…amber accent…</span> &lt;/div&gt;
+&lt;div <span class="k">data-role</span>=<span class="s">"profs"</span>&gt;   <span class="c">…blue accent…</span>  &lt;/div&gt;
+&lt;div <span class="k">data-role</span>=<span class="s">"admin"</span>&gt;   <span class="c">…green accent…</span> &lt;/div&gt;</pre>
+    </div>
+  </div>
+</section>
+
+<!-- live demo -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-kicker">Live preview</p>
+      <h2 class="section-title">Components, rendered now.</h2>
+      <p class="section-sub">The actual bundle, running on this page.</p>
+    </div>
+    <div class="demo-wrap" id="demo-root">Loading…</div>
+  </div>
+</section>
+
+<!-- components -->
+<section class="section" id="components">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-kicker">Library · 26 components</p>
+      <h2 class="section-title">Component catalog</h2>
+      <p class="section-sub">All bundled to <code style="font-family:var(--tx-font-data,'Inter');font-size:14px;background:#fff;padding:3px 8px;border-radius:6px;border:1px solid var(--tx-border)">window.DesignSystem_83ace9</code> — click any group to open its interactive specimen.</p>
+    </div>
+    <div class="comp-grid">
+
+      <a class="comp-card" href="docs.html#button">
+        <div class="comp-card-top">
+          <div class="comp-accent" style="background:rgba(25,23,23,.07)">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="6" width="16" height="8" rx="4" fill="rgb(25,23,23)"/></svg>
+          </div>
+        </div>
+        <h3>Buttons</h3>
+        <div class="comp-members">Button · IconButton<br/>contained · outlined · soft · text<br/>ink + accent · sm/md/lg</div>
+        <div class="comp-link">View components <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 7h6M7 4l3 3-3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+
+      <a class="comp-card" href="docs.html#input">
+        <div class="comp-card-top">
+          <div class="comp-accent" style="background:rgba(61,110,253,.1)">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="7" width="14" height="6" rx="3" stroke="rgb(61,110,253)" stroke-width="1.5"/><path d="M6 10h8" stroke="rgb(61,110,253)" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+        <h3>Forms</h3>
+        <div class="comp-members">Input · Select · Checkbox · Switch<br/>error states · helper text<br/>adornments · full-width</div>
+        <div class="comp-link">View components <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 7h6M7 4l3 3-3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+
+      <a class="comp-card" href="docs.html#badge">
+        <div class="comp-card-top">
+          <div class="comp-accent" style="background:rgba(36,138,61,.1)">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="4" fill="rgb(36,138,61)"/><circle cx="10" cy="10" r="7" stroke="rgb(36,138,61)" stroke-width="1.5"/></svg>
+          </div>
+        </div>
+        <h3>Feedback</h3>
+        <div class="comp-members">Badge · Chip · Avatar · Divider<br/>semantic colours · dot badges<br/>avatar sizes + fallback initials</div>
+        <div class="comp-link">View components <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 7h6M7 4l3 3-3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+
+      <a class="comp-card" href="docs.html#card">
+        <div class="comp-card-top">
+          <div class="comp-accent" style="background:rgba(227,147,27,.12)">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="4" width="14" height="12" rx="4" stroke="rgb(227,147,27)" stroke-width="1.5"/></svg>
+          </div>
+        </div>
+        <h3>Surfaces</h3>
+        <div class="comp-members">Card · Tabs · Pagination<br/>ProgressCircular<br/>white fill · 24px radius</div>
+        <div class="comp-link">View components <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 7h6M7 4l3 3-3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+
+      <a class="comp-card" href="docs.html#intro">
+        <div class="comp-card-top">
+          <div class="comp-accent" style="background:rgba(25,23,23,.07)">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 14L10 5l6 9H4z" fill="rgb(25,23,23)"/></svg>
+          </div>
+        </div>
+        <h3>Brand</h3>
+        <div class="comp-members">Logo<br/>mark · lockup · role variants<br/>student / profs / admin colours</div>
+        <div class="comp-link">View component <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 7h6M7 4l3 3-3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+
+      <a class="comp-card" href="docs.html#statusbadge">
+        <div class="comp-card-top">
+          <div class="comp-accent" style="background:rgba(0,184,217,.1)">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="2" fill="rgb(0,184,217)"/><rect x="11" y="3" width="6" height="6" rx="2" fill="rgba(0,184,217,.4)"/><rect x="3" y="11" width="6" height="6" rx="2" fill="rgba(0,184,217,.4)"/><rect x="11" y="11" width="6" height="6" rx="2" fill="rgba(0,184,217,.2)"/></svg>
+          </div>
+        </div>
+        <h3>Domain</h3>
+        <div class="comp-members">ProfileHeader · ClassCard · ClassRow<br/>StatusBadge · AttendanceGrid<br/>BottomNav · StudentRow · SettingRow</div>
+        <div class="comp-link">View components <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 7h6M7 4l3 3-3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- tokens -->
+<section class="section" id="tokens">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-kicker">Foundations</p>
+      <h2 class="section-title">Design tokens</h2>
+      <p class="section-sub">CSS custom properties under the <code style="font-family:var(--tx-font-data,'Inter');font-size:14px;background:#fff;padding:3px 8px;border-radius:6px;border:1px solid var(--tx-border)">--tx-*</code> namespace. Import <code style="font-family:var(--tx-font-data,'Inter');font-size:14px;background:#fff;padding:3px 8px;border-radius:6px;border:1px solid var(--tx-border)">styles.css</code> and they're globally available.</p>
+    </div>
+    <div class="token-grid" id="token-grid"></div>
+  </div>
+</section>
+
+<!-- guidelines -->
+<section class="section" id="guidelines">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-kicker">Guidelines</p>
+      <h2 class="section-title">Foundation specimens</h2>
+      <p class="section-sub">Visual references for every foundation — colours, typography, spacing, radii and shadows.</p>
+    </div>
+    <div class="guide-grid">
+      <a class="guide-card" href="guidelines/colors-roles.card.html">
+        <div class="guide-card-label">Colors</div>
+        <h4>Role accents</h4>
+        <div class="guide-arrow">View ↗</div>
+      </a>
+      <a class="guide-card" href="guidelines/colors-semantic.card.html">
+        <div class="guide-card-label">Colors</div>
+        <h4>Semantic palette</h4>
+        <div class="guide-arrow">View ↗</div>
+      </a>
+      <a class="guide-card" href="guidelines/colors-neutrals.card.html">
+        <div class="guide-card-label">Colors</div>
+        <h4>Neutrals &amp; surfaces</h4>
+        <div class="guide-arrow">View ↗</div>
+      </a>
+      <a class="guide-card" href="guidelines/colors-attendance.card.html">
+        <div class="guide-card-label">Colors</div>
+        <h4>Attendance states</h4>
+        <div class="guide-arrow">View ↗</div>
+      </a>
+      <a class="guide-card" href="guidelines/type-display.card.html">
+        <div class="guide-card-label">Typography</div>
+        <h4>Display &amp; headings</h4>
+        <div class="guide-arrow">View ↗</div>
+      </a>
+      <a class="guide-card" href="guidelines/type-body.card.html">
+        <div class="guide-card-label">Typography</div>
+        <h4>Body &amp; data</h4>
+        <div class="guide-arrow">View ↗</div>
+      </a>
+      <a class="guide-card" href="guidelines/spacing.card.html">
+        <div class="guide-card-label">Spacing</div>
+        <h4>Scale &amp; grid</h4>
+        <div class="guide-arrow">View ↗</div>
+      </a>
+      <a class="guide-card" href="guidelines/radii.card.html">
+        <div class="guide-card-label">Spacing</div>
+        <h4>Corner radii</h4>
+        <div class="guide-arrow">View ↗</div>
+      </a>
+      <a class="guide-card" href="guidelines/shadows.card.html">
+        <div class="guide-card-label">Spacing</div>
+        <h4>Shadows</h4>
+        <div class="guide-arrow">View ↗</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- UI kits -->
+<section class="section" id="kits">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-kicker">UI kits</p>
+      <h2 class="section-title">Full-screen recreations</h2>
+      <p class="section-sub">Click-through screens composed from the component primitives — production-faithful, not storybook.</p>
+    </div>
+    <div class="kit-row">
+      <a class="kit-card active" href="ui_kits/student/index.html">
+        <div class="kit-badge" style="background:rgba(227,147,27,.12);color:var(--tx-student,#e3931b)">
+          <span style="width:8px;height:8px;border-radius:999px;background:var(--tx-student,#e3931b);display:inline-block"></span>
+          Student · Amber
+        </div>
+        <h3>Student app</h3>
+        <p>Login → Home → Attendances → Class detail → Profile. Interactive click-through prototype.</p>
+        <div class="kit-link">Open app ↗</div>
+      </a>
+      <div class="kit-card dim">
+        <div class="kit-badge" style="background:rgba(61,110,253,.1);color:var(--tx-profs,#3d6efd)">
+          <span style="width:8px;height:8px;border-radius:999px;background:var(--tx-profs,#3d6efd);display:inline-block"></span>
+          Profs &amp; Admin · Planned
+        </div>
+        <h3>Profs &amp; Admin apps</h3>
+        <p>Blue (Profs) and Green (Admin) kits build on the same primitives. Coming next.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="footer-brand">Tendix Design System</div>
+      <div class="footer-note">University of Bejaïa · Attendance platform</div>
+    </div>
+    <div class="footer-tags">
+      <span class="tag">styles.css</span>
+      <span class="tag">_ds_bundle.js</span>
+      <span class="tag">DesignSystem_83ace9</span>
+    </div>
+  </div>
+</footer>
+
+<!-- scripts -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="./_ds_bundle.js"></script>
+
+<!-- token swatches -->
+<script>
+(function() {
+  const tokens = [
+    ['Canvas',   '--tx-bg'],
+    ['Ink',      '--tx-ink'],
+    ['Card',     '--tx-surface'],
+    ['Student',  '--tx-student'],
+    ['Profs',    '--tx-profs'],
+    ['Admin',    '--tx-admin'],
+    ['Success',  '--tx-success'],
+    ['Error',    '--tx-error'],
+    ['Warning',  '--tx-warning'],
+    ['Info',     '--tx-info'],
+    ['Text',     '--tx-text-strong'],
+    ['Border',   '--tx-border'],
+  ];
+  document.getElementById('token-grid').innerHTML = tokens.map(([name, v]) =>
+    `<div class="token-swatch">
+      <div class="token-chip" style="background:var(${v})"></div>
+      <div class="token-meta"><strong>${name}</strong><code>${v}</code></div>
+    </div>`
+  ).join('');
+})();
+</script>
+
+<!-- live demo + logo swap -->
+<script type="text/babel">
+const NS = window.DesignSystem_83ace9 || {};
+const { Button, IconButton, Badge, Chip, StatusBadge, Switch, Logo, Icon } = NS;
+
+// logo in topnav
+try {
+  if (NS.Logo) {
+    const slot = document.getElementById('logo-slot');
+    slot.innerHTML = '';
+    ReactDOM.createRoot(slot).render(React.createElement(NS.Logo, { size: 24 }));
+  }
+} catch(e) {}
+
+// demo
+const demoRoot = document.getElementById('demo-root');
+if (!Button) {
+  demoRoot.innerHTML = '<p style="color:var(--tx-text-tertiary);font-size:14px;padding:8px 0">Bundle not loaded — open the deployed version to see the live demo.</p>';
+} else {
+  function Demo() {
+    const [sw, setSw] = React.useState(true);
+    return React.createElement('div', null,
+      React.createElement('div', {className:'demo-row'},
+        React.createElement('span', {className:'demo-label'}, 'Brand'),
+        React.createElement(Logo, {role:'student'}),
+        React.createElement(Logo, {role:'profs'}),
+        React.createElement(Logo, {role:'admin'})
+      ),
+      React.createElement('div', {className:'demo-row'},
+        React.createElement('span', {className:'demo-label'}, 'Buttons'),
+        React.createElement(Button, null, 'Find the class'),
+        React.createElement(Button, {variant:'outlined'}, 'History'),
+        React.createElement(Button, {variant:'soft', color:'accent'}, 'Justify'),
+        React.createElement(Button, {color:'success'}, 'Approve'),
+        React.createElement(Button, {color:'error', variant:'soft'}, 'Reject'),
+        React.createElement(Button, {disabled:true}, 'Disabled')
+      ),
+      StatusBadge && React.createElement('div', {className:'demo-row'},
+        React.createElement('span', {className:'demo-label'}, 'Status'),
+        React.createElement(StatusBadge, {status:'attended'}),
+        React.createElement(StatusBadge, {status:'absent'}),
+        React.createElement(StatusBadge, {status:'justified'}),
+        React.createElement(StatusBadge, {status:'running'})
+      ),
+      React.createElement('div', {className:'demo-row'},
+        React.createElement('span', {className:'demo-label'}, 'Controls'),
+        Chip && React.createElement(Chip, null, 'L3 · A6'),
+        Badge && React.createElement(Badge, {color:'accent'}, '3'),
+        Switch && React.createElement(Switch, {checked:sw, onChange:()=>setSw(v=>!v), label:'Notifications'}),
+        IconButton && React.createElement(IconButton, {variant:'white'}, React.createElement(Icon, {name:'Bell', size:20})),
+        IconButton && React.createElement(IconButton, {variant:'white'}, React.createElement(Icon, {name:'Globe', size:20}))
+      )
+    );
+  }
+  ReactDOM.createRoot(demoRoot).render(React.createElement(Demo));
+}
+</script>
+
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="20" fill="#191717"/>
+    <text x="50" y="64" font-family="Urbanist,sans-serif" font-size="52" font-weight="800" fill="#e3931b" text-anchor="middle">T</text>
+  </svg>
+</template>
+
+</body>
+</html>

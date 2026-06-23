@@ -1,0 +1,924 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tendix — Component Docs</title>
+<link rel="stylesheet" href="./styles.css" />
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:15px}
+body{background:var(--tx-bg,#efefef);color:var(--tx-text,#242424);font-family:var(--tx-font-ui,'Urbanist',system-ui,sans-serif);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh}
+a{color:inherit;text-decoration:none}
+code{font-family:var(--tx-font-data,'Inter',monospace);font-size:.88em;background:#fff;border:1px solid var(--tx-border,#e3e3e3);padding:2px 6px;border-radius:5px}
+
+/* ── topbar ── */
+.top{position:sticky;top:0;z-index:50;background:rgba(239,239,239,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--tx-border,#e3e3e3)}
+.top-inner{max-width:1380px;margin:0 auto;padding:0 24px;height:58px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{font-family:var(--tx-font-display,'Urbanist');font-weight:800;font-size:18px;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.brand .slash{color:var(--tx-border-strong,#a5a3a3);font-weight:300}
+.brand .sub{font-weight:500;font-size:15px;color:var(--tx-text-secondary,#494444)}
+.top-links{display:flex;gap:4px}
+.top-links a{font-size:13px;font-weight:600;color:var(--tx-text-secondary,#494444);padding:6px 12px;border-radius:8px;transition:background .12s,color .12s}
+.top-links a:hover{background:rgba(0,0,0,.06);color:var(--tx-text-strong,#11141b)}
+
+/* ── layout ── */
+.shell{display:flex;flex:1;max-width:1380px;margin:0 auto;width:100%;gap:0}
+aside{width:248px;flex-shrink:0;padding:28px 0 60px;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto}
+aside::-webkit-scrollbar{width:0}
+main{flex:1;min-width:0;padding:40px 48px 80px 40px}
+
+/* ── sidebar ── */
+.sidebar-group{margin-bottom:22px}
+.sidebar-group-label{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--tx-text-tertiary,#999);padding:0 16px;margin-bottom:6px}
+.sidebar-item{display:block;padding:7px 16px;border-radius:9px;font-size:14px;font-weight:500;color:var(--tx-text-secondary,#494444);transition:background .1s,color .1s;cursor:pointer;white-space:nowrap}
+.sidebar-item:hover{background:rgba(0,0,0,.05);color:var(--tx-text-strong,#11141b)}
+.sidebar-item.active{background:var(--tx-ink,#191717);color:#fff;font-weight:700}
+.sidebar-badge{float:right;font-size:10px;font-weight:700;background:var(--tx-student,#e3931b);color:#fff;padding:2px 7px;border-radius:99px;margin-top:1px}
+
+/* ── doc section ── */
+.doc-section{margin-bottom:64px;scroll-margin-top:80px}
+.doc-title{font-family:var(--tx-font-display,'Urbanist');font-weight:800;font-size:32px;letter-spacing:-.025em;color:var(--tx-text-strong,#11141b);margin-bottom:8px}
+.doc-desc{font-size:15px;color:var(--tx-text-secondary,#494444);line-height:1.65;max-width:700px;margin-bottom:28px}
+.doc-subtitle{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tx-text-tertiary,#999);margin-bottom:14px;margin-top:32px}
+
+/* ── preview + code card ── */
+.pc-card{background:#fff;border:1px solid var(--tx-border,#e3e3e3);border-radius:20px;overflow:hidden;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.pc-tabs{display:flex;gap:0;border-bottom:1px solid var(--tx-border,#e3e3e3);padding:0 20px}
+.pc-tab{padding:12px 16px;font-size:13px;font-weight:600;color:var(--tx-text-secondary,#494444);border-bottom:2px solid transparent;cursor:pointer;transition:color .12s;margin-bottom:-1px}
+.pc-tab.active{color:var(--tx-text-strong,#11141b);border-bottom-color:var(--tx-ink,#191717)}
+.pc-pane{display:none}
+.pc-pane.active{display:block}
+.preview-area{padding:28px 24px;background:var(--tx-bg,#efefef);display:flex;flex-wrap:wrap;gap:12px;align-items:center;min-height:100px}
+.preview-area.col{flex-direction:column;align-items:flex-start}
+.preview-area.dark{background:var(--tx-ink,#191717)}
+
+/* ── code block ── */
+.code-wrap{position:relative}
+.code-copy{position:absolute;top:12px;right:12px;padding:5px 12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:8px;font-family:var(--tx-font-data,'Inter');font-size:12px;font-weight:600;color:rgba(255,255,255,.7);cursor:pointer;transition:background .12s}
+.code-copy:hover{background:rgba(255,255,255,.18);color:#fff}
+.code-copy.copied{color:#88d3b2;border-color:#88d3b2}
+pre.code{background:#191717;color:#f4f4f4;padding:22px 22px 22px;overflow-x:auto;font-family:var(--tx-font-data,'Inter',monospace);font-size:13px;line-height:1.8;margin:0;tab-size:2}
+.c{color:#706c6c} .k{color:#ffc87a} .s{color:#88d3b2} .t{color:#a5d4ff} .p{color:#f4f4f4} .cm{color:#88d3b2}
+
+/* ── platform tabs (Web / React Native) ── */
+.plat-tabs{display:flex;gap:8px;margin-bottom:14px}
+.plat-tab{padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600;border:1px solid var(--tx-border,#e3e3e3);background:#fff;color:var(--tx-text-secondary,#494444);cursor:pointer;transition:all .12s}
+.plat-tab.active{background:var(--tx-ink,#191717);color:#fff;border-color:var(--tx-ink,#191717)}
+
+/* ── props table ── */
+.props-table{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff;border-radius:16px;overflow:hidden;border:1px solid var(--tx-border,#e3e3e3);box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.props-table th{text-align:left;padding:12px 16px;font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--tx-text-tertiary,#999);background:var(--tx-bg,#efefef);border-bottom:1px solid var(--tx-border,#e3e3e3)}
+.props-table td{padding:12px 16px;border-bottom:1px solid var(--tx-bg,#efefef);vertical-align:top;line-height:1.5}
+.props-table tr:last-child td{border-bottom:none}
+.props-table td:first-child{font-family:var(--tx-font-data,'Inter');font-weight:600;color:var(--tx-text-strong,#11141b);font-size:13px}
+.props-table td:nth-child(2){color:var(--tx-student,#e3931b);font-family:var(--tx-font-data,'Inter');font-size:12.5px}
+.props-table td:nth-child(3){font-family:var(--tx-font-data,'Inter');font-size:12.5px;color:var(--tx-text-secondary,#494444)}
+.props-table td:nth-child(4){color:var(--tx-text-secondary,#494444)}
+
+/* ── install block ── */
+.install-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+@media(max-width:700px){.install-grid{grid-template-columns:1fr}}
+.install-card{background:#fff;border:1px solid var(--tx-border,#e3e3e3);border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.install-card-head{padding:10px 16px;border-bottom:1px solid var(--tx-bg,#efefef);display:flex;align-items:center;gap:8px}
+.install-card-head .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;background:var(--tx-grey-16);color:var(--tx-text-secondary,#494444)}
+.install-card-head .badge.rn{background:rgba(61,110,253,.1);color:var(--tx-profs,#3d6efd)}
+
+/* ── divider ── */
+.hr{border:none;border-top:1px solid var(--tx-border,#e3e3e3);margin:52px 0}
+
+@media(max-width:900px){aside{display:none}main{padding:28px 20px 60px}}
+</style>
+</head>
+<body>
+
+<!-- topbar -->
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <span>Tendix</span>
+      <span class="slash">/</span>
+      <span class="sub">Components</span>
+    </div>
+    <nav class="top-links">
+      <a href="index.html">← Docs</a>
+      <a href="ui_kits/student/index.html">Student app ↗</a>
+    </nav>
+  </div>
+</header>
+
+<div class="shell">
+
+<!-- sidebar -->
+<aside id="sidebar">
+  <div class="sidebar-group">
+    <div class="sidebar-group-label">Getting started</div>
+    <a class="sidebar-item active" onclick="scrollTo('intro')">Introduction</a>
+    <a class="sidebar-item" onclick="scrollTo('install')">Installation</a>
+    <a class="sidebar-item" onclick="scrollTo('theming')">Theming</a>
+    <a class="sidebar-item" onclick="scrollTo('rn')">React Native <span class="sidebar-badge">NEW</span></a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-label">Components</div>
+    <a class="sidebar-item" onclick="scrollTo('button')">Button</a>
+    <a class="sidebar-item" onclick="scrollTo('input')">Input</a>
+    <a class="sidebar-item" onclick="scrollTo('card')">Card</a>
+    <a class="sidebar-item" onclick="scrollTo('badge')">Badge</a>
+    <a class="sidebar-item" onclick="scrollTo('statusbadge')">StatusBadge</a>
+    <a class="sidebar-item" onclick="scrollTo('bottomnav')">BottomNav</a>
+    <a class="sidebar-item" onclick="scrollTo('checkbox')">Checkbox</a>
+    <a class="sidebar-item" onclick="scrollTo('switch')">Switch</a>
+    <a class="sidebar-item" onclick="scrollTo('avatar')">Avatar</a>
+    <a class="sidebar-item" onclick="scrollTo('tabs')">Tabs</a>
+  </div>
+</aside>
+
+<!-- main content -->
+<main>
+
+<!-- ═══ intro ═══ -->
+<section class="doc-section" id="intro">
+  <div class="doc-title">Tendix Design System</div>
+  <p class="doc-desc">Reusable components for the Tendix university attendance platform. Available for <strong>React (web)</strong> and <strong>React Native / Expo</strong> via React Native Paper. All components share the same token vocabulary — swap the platform, keep the brand.</p>
+  <div class="install-grid">
+    <div class="install-card">
+      <div class="install-card-head"><span>Web · React</span><span class="badge">HTML + JSX</span></div>
+      <pre class="code" style="font-size:12px"><span class="c">// 1. link styles</span>
+&lt;<span class="k">link</span> rel=<span class="s">"stylesheet"</span> href=<span class="s">"/styles.css"</span>&gt;
+<span class="c">// 2. load bundle (after React 18)</span>
+&lt;<span class="k">script</span> src=<span class="s">"/_ds_bundle.js"</span>&gt;&lt;/<span class="k">script</span>&gt;
+<span class="c">// 3. use</span>
+<span class="k">const</span> { Button } = window.<span class="k">DesignSystem_83ace9</span>;</pre>
+    </div>
+    <div class="install-card">
+      <div class="install-card-head"><span>React Native · Expo</span><span class="badge rn">RN Paper</span></div>
+      <pre class="code" style="font-size:12px"><span class="c">// install</span>
+npx expo install react-native-paper
+<span class="c">// wrap app</span>
+<span class="k">import</span> { studentTheme } <span class="k">from</span> <span class="s">'./react-native/theme'</span>;
+&lt;<span class="k">PaperProvider</span> theme={studentTheme}&gt;
+  &lt;<span class="k">App</span> /&gt;
+&lt;/<span class="k">PaperProvider</span>&gt;</pre>
+    </div>
+  </div>
+</section>
+
+<hr class="hr" />
+
+<!-- ═══ install ═══ -->
+<section class="doc-section" id="install">
+  <div class="doc-title">Installation</div>
+  <p class="doc-desc">The web system needs no package manager — just two files. For React Native, install React Native Paper and copy the <code>react-native/</code> folder into your project.</p>
+
+  <div class="doc-subtitle">Web</div>
+  <div class="pc-card">
+    <div class="code-wrap">
+      <button class="code-copy" onclick="copy(this)">Copy</button>
+      <pre class="code">&lt;!<span class="c">-- In your HTML &lt;head&gt; --&gt;</span>
+&lt;<span class="k">link</span> rel=<span class="s">"stylesheet"</span> href=<span class="s">"/styles.css"</span> /&gt;
+
+&lt;!<span class="c">-- React 18 (use .production.min.js in prod) --&gt;</span>
+&lt;<span class="k">script</span> src=<span class="s">"https://unpkg.com/react@18.3.1/umd/react.development.js"</span>&gt;&lt;/<span class="k">script</span>&gt;
+&lt;<span class="k">script</span> src=<span class="s">"https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"</span>&gt;&lt;/<span class="k">script</span>&gt;
+
+&lt;!<span class="c">-- Component bundle --&gt;</span>
+&lt;<span class="k">script</span> src=<span class="s">"/_ds_bundle.js"</span>&gt;&lt;/<span class="k">script</span>&gt;
+
+&lt;<span class="c">script type="text/babel"&gt;</span>
+<span class="k">const</span> { Button, Card, Badge, StatusBadge } = window.<span class="k">DesignSystem_83ace9</span>;
+&lt;/<span class="k">script</span>&gt;</pre>
+    </div>
+  </div>
+
+  <div class="doc-subtitle">React Native / Expo</div>
+  <div class="pc-card">
+    <div class="code-wrap">
+      <button class="code-copy" onclick="copy(this)">Copy</button>
+      <pre class="code"><span class="c"># Install peer dependencies</span>
+npx expo install react-native-paper @expo/vector-icons react-native-safe-area-context
+
+<span class="c"># Install Urbanist + Inter fonts</span>
+npx expo install @expo-google-fonts/urbanist @expo-google-fonts/inter expo-font
+
+<span class="c"># Copy the react-native/ folder into your project, then:</span>
+<span class="k">import</span> { studentTheme } <span class="k">from</span> <span class="s">'./react-native/theme'</span>;
+<span class="k">import</span> { PaperProvider } <span class="k">from</span> <span class="s">'react-native-paper'</span>;
+
+<span class="k">export default function</span> App() {
+  <span class="k">return</span> (
+    &lt;<span class="t">PaperProvider</span> theme={studentTheme}&gt;
+      &lt;<span class="t">YourApp</span> /&gt;
+    &lt;/<span class="t">PaperProvider</span>&gt;
+  );
+}</pre>
+    </div>
+  </div>
+</section>
+
+<hr class="hr" />
+
+<!-- ═══ theming ═══ -->
+<section class="doc-section" id="theming">
+  <div class="doc-title">Theming</div>
+  <p class="doc-desc">Tendix is role-based. Each user role has a distinct accent colour. Set <code>data-role</code> on a container (web) or use <code>getThemeForRole()</code> (RN) to retheme that subtree.</p>
+
+  <div class="doc-subtitle">Web — data-role attribute</div>
+  <div class="pc-card">
+    <div class="preview-area">
+      <div data-role="student" style="display:flex;gap:10px;align-items:center">
+        <span style="font-weight:700;font-size:13px;color:var(--tx-text-secondary)">student</span>
+        <button id="demo-btn-s" style="height:40px;padding:0 20px;border-radius:999px;background:var(--tx-student);color:#fff;border:none;font-family:var(--tx-font-ui);font-weight:700;font-size:14px;cursor:pointer">Amber accent</button>
+      </div>
+      <div data-role="profs" style="display:flex;gap:10px;align-items:center">
+        <span style="font-weight:700;font-size:13px;color:var(--tx-text-secondary)">profs</span>
+        <button style="height:40px;padding:0 20px;border-radius:999px;background:var(--tx-profs);color:#fff;border:none;font-family:var(--tx-font-ui);font-weight:700;font-size:14px;cursor:pointer">Blue accent</button>
+      </div>
+      <div data-role="admin" style="display:flex;gap:10px;align-items:center">
+        <span style="font-weight:700;font-size:13px;color:var(--tx-text-secondary)">admin</span>
+        <button style="height:40px;padding:0 20px;border-radius:999px;background:var(--tx-admin);color:#fff;border:none;font-family:var(--tx-font-ui);font-weight:700;font-size:14px;cursor:pointer">Green accent</button>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <button class="code-copy" onclick="copy(this)">Copy</button>
+      <pre class="code">&lt;<span class="k">div</span> data-role=<span class="s">"student"</span>&gt; <span class="c">// amber --tx-accent</span>
+  &lt;<span class="t">Button</span> color=<span class="s">"accent"</span>&gt;Find the class&lt;/<span class="t">Button</span>&gt;
+&lt;/div&gt;
+
+&lt;<span class="k">div</span> data-role=<span class="s">"profs"</span>&gt;   <span class="c">// blue --tx-accent</span>
+  &lt;<span class="t">Button</span> color=<span class="s">"accent"</span>&gt;Mark attendance&lt;/<span class="t">Button</span>&gt;
+&lt;/div&gt;
+
+&lt;<span class="k">div</span> data-role=<span class="s">"admin"</span>&gt;   <span class="c">// green --tx-accent</span>
+  &lt;<span class="t">Button</span> color=<span class="s">"accent"</span>&gt;Approve request&lt;/<span class="t">Button</span>&gt;
+&lt;/div&gt;</pre>
+    </div>
+  </div>
+
+  <div class="doc-subtitle">React Native — getThemeForRole</div>
+  <div class="pc-card">
+    <div class="code-wrap">
+      <button class="code-copy" onclick="copy(this)">Copy</button>
+      <pre class="code"><span class="k">import</span> { getThemeForRole } <span class="k">from</span> <span class="s">'./react-native/theme'</span>;
+<span class="k">import</span> { PaperProvider } <span class="k">from</span> <span class="s">'react-native-paper'</span>;
+
+<span class="c">// Wrap per-screen or per-app</span>
+<span class="k">export function</span> StudentScreen() {
+  <span class="k">return</span> (
+    &lt;<span class="t">PaperProvider</span> theme={getThemeForRole(<span class="s">'student'</span>)}&gt;
+      &lt;<span class="t">HomeView</span> /&gt;
+    &lt;/<span class="t">PaperProvider</span>&gt;
+  );
+}
+
+<span class="c">// Or per-component — pass role prop</span>
+&lt;<span class="t">TxButton</span> role=<span class="s">"admin"</span> color=<span class="s">"accent"</span>&gt;Approve&lt;/<span class="t">TxButton</span>&gt;</pre>
+    </div>
+  </div>
+</section>
+
+<hr class="hr" />
+
+<!-- ═══ button ═══ -->
+<section class="doc-section" id="button">
+  <div class="doc-title">Button</div>
+  <p class="doc-desc">The primary action control. Pillised, ink-filled by default. Supports four visual variants, four semantic colours, three sizes, and icon slots.</p>
+
+  <div class="doc-subtitle">Preview</div>
+  <div class="pc-card">
+    <div class="preview-area" id="btn-preview">Loading…</div>
+  </div>
+
+  <div class="plat-tabs" id="button-plat">
+    <button class="plat-tab active" onclick="switchPlat('button','web')">Web · React</button>
+    <button class="plat-tab" onclick="switchPlat('button','rn')">React Native</button>
+  </div>
+
+  <div id="button-web">
+    <div class="pc-card">
+      <div class="code-wrap">
+        <button class="code-copy" onclick="copy(this)">Copy</button>
+        <pre class="code"><span class="k">const</span> { Button } = window.<span class="k">DesignSystem_83ace9</span>;
+
+<span class="c">// Variants</span>
+&lt;<span class="t">Button</span>&gt;Find the class&lt;/<span class="t">Button</span>&gt;
+&lt;<span class="t">Button</span> variant=<span class="s">"outlined"</span>&gt;History&lt;/<span class="t">Button</span>&gt;
+&lt;<span class="t">Button</span> variant=<span class="s">"soft"</span>&gt;Justify&lt;/<span class="t">Button</span>&gt;
+&lt;<span class="t">Button</span> variant=<span class="s">"text"</span>&gt;Learn more&lt;/<span class="t">Button</span>&gt;
+
+<span class="c">// Colors</span>
+&lt;<span class="t">Button</span> color=<span class="s">"accent"</span>&gt;Accent&lt;/<span class="t">Button</span>&gt;
+&lt;<span class="t">Button</span> color=<span class="s">"success"</span>&gt;Approve&lt;/<span class="t">Button</span>&gt;
+&lt;<span class="t">Button</span> color=<span class="s">"error"</span> variant=<span class="s">"soft"</span>&gt;Reject&lt;/<span class="t">Button</span>&gt;
+
+<span class="c">// Sizes</span>
+&lt;<span class="t">Button</span> size=<span class="s">"sm"</span>&gt;Small&lt;/<span class="t">Button</span>&gt;
+&lt;<span class="t">Button</span> size=<span class="s">"lg"</span>&gt;Large&lt;/<span class="t">Button</span>&gt;
+
+<span class="c">// With icon</span>
+&lt;<span class="t">Button</span> endIcon={&lt;<span class="t">Icon</span> name=<span class="s">"MapPin"</span> weight=<span class="s">"fill"</span> size={18}/&gt;}&gt;
+  Location
+&lt;/<span class="t">Button</span>&gt;
+
+<span class="c">// States</span>
+&lt;<span class="t">Button</span> disabled&gt;Disabled&lt;/<span class="t">Button</span>&gt;
+&lt;<span class="t">Button</span> fullWidth&gt;Full width&lt;/<span class="t">Button</span>&gt;</pre>
+      </div>
+    </div>
+  </div>
+  <div id="button-rn" style="display:none">
+    <div class="pc-card">
+      <div class="code-wrap">
+        <button class="code-copy" onclick="copy(this)">Copy</button>
+        <pre class="code"><span class="k">import</span> { TxButton } <span class="k">from</span> <span class="s">'./react-native'</span>;
+
+<span class="c">// Variants</span>
+&lt;<span class="t">TxButton</span> onPress={handlePress}&gt;Find the class&lt;/<span class="t">TxButton</span>&gt;
+&lt;<span class="t">TxButton</span> variant=<span class="s">"outlined"</span> onPress={handlePress}&gt;History&lt;/<span class="t">TxButton</span>&gt;
+&lt;<span class="t">TxButton</span> variant=<span class="s">"soft"</span> onPress={handlePress}&gt;Justify&lt;/<span class="t">TxButton</span>&gt;
+
+<span class="c">// Colors</span>
+&lt;<span class="t">TxButton</span> color=<span class="s">"success"</span> onPress={handlePress}&gt;Approve&lt;/<span class="t">TxButton</span>&gt;
+&lt;<span class="t">TxButton</span> color=<span class="s">"error"</span> variant=<span class="s">"soft"</span> onPress={handlePress}&gt;Reject&lt;/<span class="t">TxButton</span>&gt;
+
+<span class="c">// Role accent</span>
+&lt;<span class="t">TxButton</span> role=<span class="s">"student"</span> color=<span class="s">"accent"</span> onPress={handlePress}&gt;
+  Submit
+&lt;/<span class="t">TxButton</span>&gt;
+
+<span class="c">// Loading state</span>
+&lt;<span class="t">TxButton</span> loading={isLoading} onPress={handlePress}&gt;Save&lt;/<span class="t">TxButton</span>&gt;
+
+<span class="c">// Full width</span>
+&lt;<span class="t">TxButton</span> fullWidth onPress={handlePress}&gt;Sign in&lt;/<span class="t">TxButton</span>&gt;</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-subtitle">Props</div>
+  <table class="props-table">
+    <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>variant</td><td>'contained'|'outlined'|'soft'|'text'</td><td>'contained'</td><td>Visual treatment</td></tr>
+      <tr><td>color</td><td>'primary'|'accent'|'error'|'success'</td><td>'primary'</td><td>Color role. primary = ink (near-black)</td></tr>
+      <tr><td>size</td><td>'sm'|'md'|'lg'</td><td>'md'</td><td>Height preset: 36 / 44 / 52px</td></tr>
+      <tr><td>pill</td><td>boolean</td><td>true</td><td>Fully-rounded — the Tendix house style</td></tr>
+      <tr><td>fullWidth</td><td>boolean</td><td>false</td><td>Stretch to container width</td></tr>
+      <tr><td>startIcon / endIcon</td><td>ReactNode</td><td>—</td><td>Icon before/after the label</td></tr>
+      <tr><td>disabled</td><td>boolean</td><td>false</td><td>Disables interaction + dims to 45%</td></tr>
+      <tr><td>role</td><td>'student'|'profs'|'admin'</td><td>—</td><td>RN only — overrides accent from theme</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="hr" />
+
+<!-- ═══ input ═══ -->
+<section class="doc-section" id="input">
+  <div class="doc-title">Input</div>
+  <p class="doc-desc">Text field with label, helper text, adornments, and error/success states.</p>
+
+  <div class="doc-subtitle">Preview</div>
+  <div class="pc-card">
+    <div class="preview-area col" id="input-preview" style="gap:16px;padding:24px">Loading…</div>
+  </div>
+
+  <div class="plat-tabs" id="input-plat">
+    <button class="plat-tab active" onclick="switchPlat('input','web')">Web · React</button>
+    <button class="plat-tab" onclick="switchPlat('input','rn')">React Native</button>
+  </div>
+
+  <div id="input-web">
+    <div class="pc-card"><div class="code-wrap"><button class="code-copy" onclick="copy(this)">Copy</button>
+    <pre class="code"><span class="k">const</span> { Input, Icon } = window.<span class="k">DesignSystem_83ace9</span>;
+
+<span class="c">// Basic</span>
+&lt;<span class="t">Input</span> label=<span class="s">"Student ID"</span> placeholder=<span class="s">"22-0001"</span> /&gt;
+
+<span class="c">// With adornments</span>
+&lt;<span class="t">Input</span>
+  label=<span class="s">"Search"</span>
+  startAdornment={&lt;<span class="t">Icon</span> name=<span class="s">"MagnifyingGlass"</span> size={18}/&gt;}
+  placeholder=<span class="s">"Search classes…"</span>
+/&gt;
+
+<span class="c">// Error state</span>
+&lt;<span class="t">Input</span>
+  label=<span class="s">"Password"</span>
+  type=<span class="s">"password"</span>
+  error
+  helperText=<span class="s">"Incorrect password"</span>
+/&gt;
+
+<span class="c">// Success state</span>
+&lt;<span class="t">Input</span> label=<span class="s">"Email"</span> success helperText=<span class="s">"Looks good!"</span> /&gt;</pre>
+    </div></div>
+  </div>
+  <div id="input-rn" style="display:none">
+    <div class="pc-card"><div class="code-wrap"><button class="code-copy" onclick="copy(this)">Copy</button>
+    <pre class="code"><span class="k">import</span> { TxInput } <span class="k">from</span> <span class="s">'./react-native'</span>;
+<span class="k">import</span> { TextInput } <span class="k">from</span> <span class="s">'react-native-paper'</span>;
+
+<span class="c">// Basic</span>
+&lt;<span class="t">TxInput</span> label=<span class="s">"Student ID"</span> placeholder=<span class="s">"22-0001"</span> /&gt;
+
+<span class="c">// With icon adornment</span>
+&lt;<span class="t">TxInput</span>
+  label=<span class="s">"Search"</span>
+  left={&lt;<span class="t">TextInput.Icon</span> icon=<span class="s">"magnify"</span> /&gt;}
+  placeholder=<span class="s">"Search classes…"</span>
+/&gt;
+
+<span class="c">// Error state</span>
+&lt;<span class="t">TxInput</span>
+  label=<span class="s">"Password"</span>
+  secureTextEntry
+  error
+  helperText=<span class="s">"Incorrect password"</span>
+/&gt;</pre>
+    </div></div>
+  </div>
+
+  <div class="doc-subtitle">Props</div>
+  <table class="props-table">
+    <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>label</td><td>string</td><td>—</td><td>Field label rendered above</td></tr>
+      <tr><td>helperText</td><td>string</td><td>—</td><td>Helper / validation message below</td></tr>
+      <tr><td>error</td><td>boolean</td><td>false</td><td>Red border + error-coloured helper</td></tr>
+      <tr><td>success</td><td>boolean</td><td>false</td><td>Green border</td></tr>
+      <tr><td>startAdornment / endAdornment</td><td>ReactNode</td><td>—</td><td>Web: icon or element at start/end of field</td></tr>
+      <tr><td>size</td><td>'sm'|'md'|'lg'</td><td>'md'</td><td>Height: 40 / 48 / 56px</td></tr>
+      <tr><td>pill</td><td>boolean</td><td>false</td><td>Fully-rounded shape</td></tr>
+      <tr><td>fullWidth</td><td>boolean</td><td>true</td><td>Stretch to container width</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="hr" />
+
+<!-- ═══ card ═══ -->
+<section class="doc-section" id="card">
+  <div class="doc-title">Card</div>
+  <p class="doc-desc">The system's primary surface — white, 24px radius, soft shadow, faint hairline. <code>inset</code> gives the sunken grey row variant.</p>
+
+  <div class="plat-tabs">
+    <button class="plat-tab active" onclick="switchPlat('card','web')">Web · React</button>
+    <button class="plat-tab" onclick="switchPlat('card','rn')">React Native</button>
+  </div>
+  <div id="card-web">
+    <div class="pc-card"><div class="code-wrap"><button class="code-copy" onclick="copy(this)">Copy</button>
+    <pre class="code"><span class="k">const</span> { Card } = window.<span class="k">DesignSystem_83ace9</span>;
+
+<span class="c">// Default card</span>
+&lt;<span class="t">Card</span>&gt;
+  &lt;h3&gt;Software Engineering&lt;/h3&gt;
+  &lt;p&gt;L3 · Module 6&lt;/p&gt;
+&lt;/<span class="t">Card</span>&gt;
+
+<span class="c">// Inset (sunken grey row)</span>
+&lt;<span class="t">Card</span> inset padding={12}&gt;
+  &lt;<span class="t">ClassRow</span> title=<span class="s">"TD 01"</span> /&gt;
+&lt;/<span class="t">Card</span>&gt;
+
+<span class="c">// Interactive (hover lift)</span>
+&lt;<span class="t">Card</span> interactive onClick={() =&gt; navigate('detail')}&gt;
+  &lt;<span class="t">ClassCard</span> /&gt;
+&lt;/<span class="t">Card</span>&gt;</pre>
+    </div></div>
+  </div>
+  <div id="card-rn" style="display:none">
+    <div class="pc-card"><div class="code-wrap"><button class="code-copy" onclick="copy(this)">Copy</button>
+    <pre class="code"><span class="k">import</span> { TxCard } <span class="k">from</span> <span class="s">'./react-native'</span>;
+<span class="k">import</span> { Text } <span class="k">from</span> <span class="s">'react-native'</span>;
+
+<span class="c">// Default card</span>
+&lt;<span class="t">TxCard</span>&gt;
+  &lt;<span class="t">Text</span>&gt;Software Engineering&lt;/<span class="t">Text</span>&gt;
+&lt;/<span class="t">TxCard</span>&gt;
+
+<span class="c">// Inset sunken variant</span>
+&lt;<span class="t">TxCard</span> inset padding={12}&gt;
+  &lt;<span class="t">ClassRow</span> /&gt;
+&lt;/<span class="t">TxCard</span>&gt;
+
+<span class="c">// Custom radius</span>
+&lt;<span class="t">TxCard</span> radius={16}&gt;
+  &lt;<span class="t">Text</span>&gt;Chip-style card&lt;/<span class="t">Text</span>&gt;
+&lt;/<span class="t">TxCard</span>&gt;</pre>
+    </div></div>
+  </div>
+
+  <div class="doc-subtitle">Props</div>
+  <table class="props-table">
+    <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>inset</td><td>boolean</td><td>false</td><td>Grey sunken variant for list rows</td></tr>
+      <tr><td>padding</td><td>number</td><td>20</td><td>Inner padding in px</td></tr>
+      <tr><td>radius</td><td>number</td><td>24</td><td>Corner radius in px</td></tr>
+      <tr><td>interactive</td><td>boolean</td><td>false</td><td>Web: hover lift + pointer cursor</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="hr" />
+
+<!-- ═══ badge ═══ -->
+<section class="doc-section" id="badge">
+  <div class="doc-title">Badge</div>
+  <p class="doc-desc">Pill label for class types, counts, and callouts. Soft (tinted) or solid, six semantic colours.</p>
+
+  <div class="doc-subtitle">Preview</div>
+  <div class="pc-card">
+    <div class="preview-area" id="badge-preview">Loading…</div>
+  </div>
+
+  <div class="plat-tabs">
+    <button class="plat-tab active" onclick="switchPlat('badge','web')">Web · React</button>
+    <button class="plat-tab" onclick="switchPlat('badge','rn')">React Native</button>
+  </div>
+  <div id="badge-web">
+    <div class="pc-card"><div class="code-wrap"><button class="code-copy" onclick="copy(this)">Copy</button>
+    <pre class="code"><span class="k">const</span> { Badge } = window.<span class="k">DesignSystem_83ace9</span>;
+
+&lt;<span class="t">Badge</span>&gt;Neutral&lt;/<span class="t">Badge</span>&gt;
+&lt;<span class="t">Badge</span> color=<span class="s">"accent"</span>&gt;L3 · A6&lt;/<span class="t">Badge</span>&gt;
+&lt;<span class="t">Badge</span> color=<span class="s">"success"</span>&gt;Present&lt;/<span class="t">Badge</span>&gt;
+&lt;<span class="t">Badge</span> color=<span class="s">"error"</span>&gt;Absent&lt;/<span class="t">Badge</span>&gt;
+&lt;<span class="t">Badge</span> color=<span class="s">"warning"</span>&gt;Pending&lt;/<span class="t">Badge</span>&gt;
+&lt;<span class="t">Badge</span> color=<span class="s">"info"</span>&gt;Running&lt;/<span class="t">Badge</span>&gt;
+
+<span class="c">// Solid variant</span>
+&lt;<span class="t">Badge</span> color=<span class="s">"error"</span> variant=<span class="s">"solid"</span>&gt;3 absent&lt;/<span class="t">Badge</span>&gt;
+
+<span class="c">// With leading dot</span>
+&lt;<span class="t">Badge</span> color=<span class="s">"success"</span> dot&gt;Active session&lt;/<span class="t">Badge</span>&gt;
+
+<span class="c">// Sizes</span>
+&lt;<span class="t">Badge</span> size=<span class="s">"sm"</span>&gt;TD&lt;/<span class="t">Badge</span>&gt;
+&lt;<span class="t">Badge</span> size=<span class="s">"lg"</span>&gt;SUPER&lt;/<span class="t">Badge</span>&gt;</pre>
+    </div></div>
+  </div>
+  <div id="badge-rn" style="display:none">
+    <div class="pc-card"><div class="code-wrap"><button class="code-copy" onclick="copy(this)">Copy</button>
+    <pre class="code"><span class="k">import</span> { TxBadge } <span class="k">from</span> <span class="s">'./react-native'</span>;
+
+&lt;<span class="t">TxBadge</span>&gt;Neutral&lt;/<span class="t">TxBadge</span>&gt;
+&lt;<span class="t">TxBadge</span> color=<span class="s">"success"</span>&gt;Present&lt;/<span class="t">TxBadge</span>&gt;
+&lt;<span class="t">TxBadge</span> color=<span class="s">"error"</span> variant=<span class="s">"solid"</span>&gt;3 absent&lt;/<span class="t">TxBadge</span>&gt;
+&lt;<span class="t">TxBadge</span> color=<span class="s">"accent"</span> dot&gt;L3 · A6&lt;/<span class="t">TxBadge</span>&gt;</pre>
+    </div></div>
+  </div>
+
+  <div class="doc-subtitle">Props</div>
+  <table class="props-table">
+    <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>color</td><td>'neutral'|'accent'|'success'|'error'|'warning'|'info'</td><td>'neutral'</td><td>Semantic colour</td></tr>
+      <tr><td>variant</td><td>'soft'|'solid'</td><td>'soft'</td><td>Tinted background or filled</td></tr>
+      <tr><td>size</td><td>'sm'|'md'|'lg'</td><td>'md'</td><td>Height: 20 / 26 / 32px</td></tr>
+      <tr><td>dot</td><td>boolean</td><td>false</td><td>Leading status dot</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="hr" />
+
+<!-- ═══ statusbadge ═══ -->
+<section class="doc-section" id="statusbadge">
+  <div class="doc-title">StatusBadge</div>
+  <p class="doc-desc">Attendance status row — text label + a circular icon chip. Covers all seven session states.</p>
+
+  <div class="doc-subtitle">Preview</div>
+  <div class="pc-card">
+    <div class="preview-area" id="status-preview">Loading…</div>
+  </div>
+
+  <div class="plat-tabs">
+    <button class="plat-tab active" onclick="switchPlat('statusbadge','web')">Web · React</button>
+    <button class="plat-tab" onclick="switchPlat('statusbadge','rn')">React Native</button>
+  </div>
+  <div id="statusbadge-web">
+    <div class="pc-card"><div class="code-wrap"><button class="code-copy" onclick="copy(this)">Copy</button>
+    <pre class="code"><span class="k">const</span> { StatusBadge } = window.<span class="k">DesignSystem_83ace9</span>;
+
+&lt;<span class="t">StatusBadge</span> status=<span class="s">"attended"</span> /&gt;
+&lt;<span class="t">StatusBadge</span> status=<span class="s">"absent"</span> /&gt;
+&lt;<span class="t">StatusBadge</span> status=<span class="s">"justified"</span> /&gt;
+&lt;<span class="t">StatusBadge</span> status=<span class="s">"rejected"</span> /&gt;
+&lt;<span class="t">StatusBadge</span> status=<span class="s">"canceled"</span> /&gt;
+&lt;<span class="t">StatusBadge</span> status=<span class="s">"running"</span> /&gt;
+&lt;<span class="t">StatusBadge</span> status=<span class="s">"pending"</span> /&gt;
+
+<span class="c">// Without icon</span>
+&lt;<span class="t">StatusBadge</span> status=<span class="s">"attended"</span> showIcon={false} /&gt;
+
+<span class="c">// Small size</span>
+&lt;<span class="t">StatusBadge</span> status=<span class="s">"absent"</span> size=<span class="s">"sm"</span> /&gt;</pre>
+    </div></div>
+  </div>
+  <div id="statusbadge-rn" style="display:none">
+    <div class="pc-card"><div class="code-wrap"><button class="code-copy" onclick="copy(this)">Copy</button>
+    <pre class="code"><span class="k">import</span> { TxStatusBadge } <span class="k">from</span> <span class="s">'./react-native'</span>;
+
+&lt;<span class="t">TxStatusBadge</span> status=<span class="s">"attended"</span> /&gt;
+&lt;<span class="t">TxStatusBadge</span> status=<span class="s">"absent"</span> /&gt;
+&lt;<span class="t">TxStatusBadge</span> status=<span class="s">"justified"</span> /&gt;
+&lt;<span class="t">TxStatusBadge</span> status=<span class="s">"running"</span> showIcon={false} /&gt;
+&lt;<span class="t">TxStatusBadge</span> status=<span class="s">"pending"</span> size=<span class="s">"sm"</span> /&gt;</pre>
+    </div></div>
+  </div>
+
+  <div class="doc-subtitle">Props</div>
+  <table class="props-table">
+    <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>status</td><td>'attended'|'absent'|'justified'|'rejected'|'canceled'|'running'|'pending'</td><td>'attended'</td><td>Session attendance state</td></tr>
+      <tr><td>label</td><td>string</td><td>auto</td><td>Override the auto-generated label</td></tr>
+      <tr><td>showIcon</td><td>boolean</td><td>true</td><td>Show the circular icon chip</td></tr>
+      <tr><td>size</td><td>'sm'|'md'</td><td>'md'</td><td>Label size and icon diameter</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="hr" />
+
+<!-- ═══ bottomnav ═══ -->
+<section class="doc-section" id="bottomnav">
+  <div class="doc-title">BottomNav</div>
+  <p class="doc-desc">Tab bar for mobile-style navigation. Active item expands to an ink pill; inactive items show icon + label in muted colour.</p>
+
+  <div class="doc-subtitle">Preview</div>
+  <div class="pc-card">
+    <div class="preview-area" id="nav-preview" style="padding:0;background:#fff">Loading…</div>
+  </div>
+
+  <div class="plat-tabs">
+    <button class="plat-tab active" onclick="switchPlat('bottomnav','web')">Web · React</button>
+    <button class="plat-tab" onclick="switchPlat('bottomnav','rn')">React Native</button>
+  </div>
+  <div id="bottomnav-web">
+    <div class="pc-card"><div class="code-wrap"><button class="code-copy" onclick="copy(this)">Copy</button>
+    <pre class="code"><span class="k">const</span> { BottomNav } = window.<span class="k">DesignSystem_83ace9</span>;
+
+<span class="k">const</span> [tab, setTab] = React.useState(<span class="s">'home'</span>);
+
+<span class="c">// Default items (Home / Attendances / Profile)</span>
+&lt;<span class="t">BottomNav</span> value={tab} onChange={setTab} /&gt;
+
+<span class="c">// Custom items</span>
+&lt;<span class="t">BottomNav</span>
+  value={tab}
+  onChange={setTab}
+  items={[
+    { value: <span class="s">'home'</span>,   label: <span class="s">'Home'</span>,   icon: <span class="s">'House'</span> },
+    { value: <span class="s">'classes'</span>, label: <span class="s">'Classes'</span>, icon: <span class="s">'Clipboard'</span> },
+    { value: <span class="s">'notify'</span>,  label: <span class="s">'Alerts'</span>,  icon: <span class="s">'Bell'</span> },
+    { value: <span class="s">'profile'</span>, label: <span class="s">'Profile'</span>, icon: <span class="s">'User'</span> },
+  ]}
+/&gt;</pre>
+    </div></div>
+  </div>
+  <div id="bottomnav-rn" style="display:none">
+    <div class="pc-card"><div class="code-wrap"><button class="code-copy" onclick="copy(this)">Copy</button>
+    <pre class="code"><span class="k">import</span> { TxBottomNav } <span class="k">from</span> <span class="s">'./react-native'</span>;
+<span class="k">import</span> { useState } <span class="k">from</span> <span class="s">'react'</span>;
+
+<span class="k">export function</span> StudentLayout() {
+  <span class="k">const</span> [tab, setTab] = useState(<span class="s">'home'</span>);
+  <span class="k">return</span> (
+    &lt;<span class="t">SafeAreaView</span> style={{ flex: 1 }}&gt;
+      &lt;<span class="t">ScreenContent</span> tab={tab} /&gt;
+      &lt;<span class="t">TxBottomNav</span> value={tab} onChange={setTab} /&gt;
+    &lt;/<span class="t">SafeAreaView</span>&gt;
+  );
+}
+
+<span class="c">// React Navigation tab bar adapter</span>
+<span class="c">// In your Tab.Navigator:</span>
+tabBar={(props) =&gt; (
+  &lt;<span class="t">TxBottomNav</span>
+    value={props.state.routeNames[props.state.index]}
+    onChange={(v) =&gt; props.navigation.navigate(v)}
+    items={props.state.routeNames.map((name) =&gt; ({
+      value: name,
+      label: name,
+      icon: iconMap[name],
+    }))}
+  /&gt;
+)}</pre>
+    </div></div>
+  </div>
+
+  <div class="doc-subtitle">Props</div>
+  <table class="props-table">
+    <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>items</td><td>BottomNavItem[]</td><td>Home/Attendances/Profile</td><td>Tab item config: value, label, icon</td></tr>
+      <tr><td>value</td><td>string</td><td>'home'</td><td>Currently active tab value</td></tr>
+      <tr><td>onChange</td><td>(value: string) => void</td><td>—</td><td>Called when a tab is pressed</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="hr" />
+
+<!-- ═══ other components ═══ -->
+<section class="doc-section" id="checkbox">
+  <div class="doc-title">Checkbox</div>
+  <p class="doc-desc">Square checkbox with 6px radius; checked state fills with the role accent. Supports indeterminate state.</p>
+  <div class="pc-card"><div class="code-wrap"><button class="code-copy" onclick="copy(this)">Copy</button>
+  <pre class="code"><span class="k">const</span> { Checkbox } = window.<span class="k">DesignSystem_83ace9</span>;
+
+&lt;<span class="t">Checkbox</span> checked={checked} onChange={setChecked} label=<span class="s">"Mark all present"</span> /&gt;
+&lt;<span class="t">Checkbox</span> checked indeterminate label=<span class="s">"3 of 6 selected"</span> /&gt;
+&lt;<span class="t">Checkbox</span> color=<span class="s">"ink"</span> checked label=<span class="s">"Ink colour"</span> /&gt;
+&lt;<span class="t">Checkbox</span> disabled label=<span class="s">"Disabled"</span> /&gt;</pre>
+  </div></div>
+</section>
+
+<hr class="hr" />
+
+<section class="doc-section" id="switch">
+  <div class="doc-title">Switch</div>
+  <p class="doc-desc">Toggle switch. Off = grey track; on = role accent track.</p>
+  <div class="pc-card"><div class="code-wrap"><button class="code-copy" onclick="copy(this)">Copy</button>
+  <pre class="code"><span class="k">const</span> { Switch } = window.<span class="k">DesignSystem_83ace9</span>;
+
+&lt;<span class="t">Switch</span> checked={on} onChange={setOn} label=<span class="s">"Notifications"</span> /&gt;
+&lt;<span class="t">Switch</span> checked={on} onChange={setOn} disabled /&gt;</pre>
+  </div></div>
+</section>
+
+<hr class="hr" />
+
+<section class="doc-section" id="avatar">
+  <div class="doc-title">Avatar</div>
+  <p class="doc-desc">Circular avatar with image or initials fallback. Four sizes.</p>
+  <div class="pc-card"><div class="code-wrap"><button class="code-copy" onclick="copy(this)">Copy</button>
+  <pre class="code"><span class="k">const</span> { Avatar } = window.<span class="k">DesignSystem_83ace9</span>;
+
+&lt;<span class="t">Avatar</span> src=<span class="s">"/profile.jpg"</span> size=<span class="s">"lg"</span> /&gt;
+&lt;<span class="t">Avatar</span> initials=<span class="s">"MA"</span> size=<span class="s">"md"</span> /&gt;    <span class="c">// fallback initials</span>
+&lt;<span class="t">Avatar</span> initials=<span class="s">"AB"</span> size=<span class="s">"sm"</span> /&gt;
+&lt;<span class="t">Avatar</span> size=<span class="s">"xs"</span> /&gt;                    <span class="c">// generic icon fallback</span></pre>
+  </div></div>
+</section>
+
+<hr class="hr" />
+
+<section class="doc-section" id="tabs">
+  <div class="doc-title">Tabs</div>
+  <p class="doc-desc">Segmented tab strip. Active pill has ink background and slides smoothly.</p>
+  <div class="pc-card"><div class="code-wrap"><button class="code-copy" onclick="copy(this)">Copy</button>
+  <pre class="code"><span class="k">const</span> { Tabs } = window.<span class="k">DesignSystem_83ace9</span>;
+
+&lt;<span class="t">Tabs</span>
+  value={tab}
+  onChange={setTab}
+  items={[
+    { value: <span class="s">'all'</span>,      label: <span class="s">'All'</span> },
+    { value: <span class="s">'attended'</span>, label: <span class="s">'Attended'</span> },
+    { value: <span class="s">'absent'</span>,   label: <span class="s">'Absent'</span> },
+  ]}
+/&gt;</pre>
+  </div></div>
+</section>
+
+</main>
+</div>
+
+<!-- react + bundle -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="./_ds_bundle.js"></script>
+
+<script>
+// ── copy to clipboard ──
+function copy(btn) {
+  const code = btn.closest('.code-wrap').querySelector('pre').innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// ── platform tab switch ──
+function switchPlat(comp, plat) {
+  const webEl = document.getElementById(comp + '-web');
+  const rnEl  = document.getElementById(comp + '-rn');
+  const tabs   = document.querySelectorAll('#' + comp + '-plat .plat-tab, [id^="' + comp + '"] .plat-tab');
+  if (webEl) webEl.style.display = plat === 'web' ? '' : 'none';
+  if (rnEl)  rnEl.style.display  = plat === 'rn'  ? '' : 'none';
+  document.querySelectorAll('#' + comp + '-plat .plat-tab').forEach((t, i) => {
+    t.classList.toggle('active', (i === 0 && plat === 'web') || (i === 1 && plat === 'rn'));
+  });
+}
+
+// ── sidebar active ──
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+}
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.querySelectorAll('.sidebar-item').forEach(a => a.classList.remove('active'));
+      const id = e.target.id;
+      const map = { intro:'intro', install:'install', theming:'theming', rn:'rn',
+        button:'button', input:'input', card:'card', badge:'badge',
+        statusbadge:'statusbadge', bottomnav:'bottomnav',
+        checkbox:'checkbox', switch:'switch', avatar:'avatar', tabs:'tabs' };
+      const item = [...document.querySelectorAll('.sidebar-item')]
+        .find(a => a.getAttribute('onclick')?.includes(`'${map[id]}'`));
+      if (item) item.classList.add('active');
+    }
+  });
+}, { threshold: 0.15, rootMargin: '-60px 0px -60% 0px' });
+document.querySelectorAll('.doc-section').forEach(s => observer.observe(s));
+</script>
+
+<script type="text/babel">
+const NS = window.DesignSystem_83ace9 || {};
+const { Button, Badge, StatusBadge, BottomNav, Input } = NS;
+
+function mount(id, el) {
+  const root = document.getElementById(id);
+  if (!root || !el) { if (root) root.textContent = 'Bundle not loaded.'; return; }
+  root.innerHTML = '';
+  ReactDOM.createRoot(root).render(el);
+}
+
+// Button preview
+if (Button) {
+  mount('btn-preview',
+    <div style={{display:'flex',flexWrap:'wrap',gap:10,alignItems:'center'}}>
+      <Button>Find the class</Button>
+      <Button variant="outlined">History</Button>
+      <Button variant="soft" color="accent">Justify</Button>
+      <Button color="success">Approve</Button>
+      <Button color="error" variant="soft">Reject</Button>
+      <Button disabled>Disabled</Button>
+      <Button size="sm">Small</Button>
+      <Button size="lg">Large</Button>
+    </div>
+  );
+}
+
+// Input preview
+if (Input) {
+  const { Icon } = NS;
+  mount('input-preview',
+    <div style={{display:'flex',flexDirection:'column',gap:16,width:'100%',maxWidth:400}}>
+      <Input label="Student ID" placeholder="22-0001" />
+      <Input label="Search" startAdornment={Icon && <Icon name="MagnifyingGlass" size={18}/>} placeholder="Search classes…" />
+      <Input label="Password" type="password" error helperText="Incorrect password" />
+    </div>
+  );
+}
+
+// Badge preview
+if (Badge) {
+  mount('badge-preview',
+    <div style={{display:'flex',flexWrap:'wrap',gap:10,alignItems:'center'}}>
+      <Badge>Neutral</Badge>
+      <Badge color="accent">L3 · A6</Badge>
+      <Badge color="success">Present</Badge>
+      <Badge color="error">Absent</Badge>
+      <Badge color="warning" dot>Pending</Badge>
+      <Badge color="info" dot>Running</Badge>
+      <Badge color="error" variant="solid">3 absent</Badge>
+    </div>
+  );
+}
+
+// StatusBadge preview
+if (StatusBadge) {
+  mount('status-preview',
+    <div style={{display:'flex',flexWrap:'wrap',gap:20,alignItems:'center'}}>
+      {['attended','absent','justified','canceled','running','pending'].map(s =>
+        <StatusBadge key={s} status={s} />
+      )}
+    </div>
+  );
+}
+
+// BottomNav preview
+if (BottomNav) {
+  function NavDemo() {
+    const [tab, setTab] = React.useState('home');
+    return <BottomNav value={tab} onChange={setTab} />;
+  }
+  mount('nav-preview', <NavDemo />);
+}
+</script>
+
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="20" fill="#191717"/>
+    <text x="50" y="64" font-family="Urbanist,sans-serif" font-size="52" font-weight="800" fill="#e3931b" text-anchor="middle">T</text>
+  </svg>
+</template>
+
+</body>
+</html>

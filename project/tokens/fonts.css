@@ -1,0 +1,7 @@
+/* ============================================================
+   Tendix — Webfonts
+   Urbanist (primary UI + display), Inter (secondary/body),
+   Cairo (Arabic). All are the genuine families used in the
+   Figma file, served from Google Fonts.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300..900;1,300..900&family=Inter:wght@400..700&family=Cairo:wght@400..700&display=swap');

@@ -1,0 +1,43 @@
+/* ============================================================
+   Tendix — Spacing, radii, shadows
+   The app reads as soft & airy: generous radii, pillised
+   controls, soft diffuse shadows, light hairline borders.
+   ============================================================ */
+
+:root {
+  /* Spacing scale (px) — 4px base grid */
+  --tx-space-0: 0px;
+  --tx-space-1: 4px;
+  --tx-space-2: 8px;
+  --tx-space-3: 12px;
+  --tx-space-4: 16px;
+  --tx-space-5: 20px;
+  --tx-space-6: 24px;
+  --tx-space-7: 28px;
+  --tx-space-8: 32px;
+  --tx-space-10: 40px;
+  --tx-space-12: 48px;
+  --tx-space-16: 64px;
+
+  /* Radii (px) */
+  --tx-radius-xs: 4px;
+  --tx-radius-sm: 6px;
+  --tx-radius-md: 8px;     /* buttons, inputs              */
+  --tx-radius-lg: 12px;    /* chips, small cards           */
+  --tx-radius-xl: 16px;    /* file/icon tiles              */
+  --tx-radius-2xl: 24px;   /* cards                        */
+  --tx-radius-3xl: 32px;   /* large surface cards          */
+  --tx-radius-pill: 9999px;/* nav pills, status pills      */
+
+  /* Shadows — soft, low-contrast, diffuse */
+  --tx-shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+  --tx-shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+  --tx-shadow-md: 0 6px 20px rgba(0,0,0,0.06);
+  --tx-shadow-lg: 0 12px 32px rgba(0,0,0,0.08);
+  --tx-shadow-card: 0 4px 24px rgba(0,0,0,0.05);
+  --tx-shadow-nav: 0 -2px 16px rgba(0,0,0,0.05);
+
+  /* Borders */
+  --tx-border-width: 1px;
+  --tx-border-dashed: 1.5px dashed var(--tx-accent);
+}

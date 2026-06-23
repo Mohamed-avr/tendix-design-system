@@ -1,0 +1,90 @@
+/* ============================================================
+   Tendix — Color tokens
+   Extracted from the Tendix Figma file (Brand + MUI/Minimal collections).
+   Tendix is role-themed: Student=amber, Profs=blue, Admin=green.
+   ============================================================ */
+
+:root {
+  /* ---- Brand / role accents ---------------------------------- */
+  --tx-student: rgb(227,147,27);     /* amber — Student app primary */
+  --tx-student-deep: rgb(220,78,36); /* deep orange variant         */
+  --tx-profs: rgb(61,110,253);       /* blue  — Profs app primary   */
+  --tx-admin: rgb(36,138,61);        /* green — Admin app primary   */
+
+  /* Default brand accent used across the system = Profs blue
+     (the in-product interactive/link color). */
+  --tx-accent: var(--tx-profs);
+  --tx-accent-hover: rgb(45,92,224);
+  --tx-accent-soft: rgba(61,110,253,0.10);
+
+  /* ---- Ink / near-black (buttons, primary surfaces) ---------- */
+  --tx-ink: rgb(25,23,23);           /* primary button / active nav */
+  --tx-ink-hover: rgb(48,44,44);
+
+  /* ---- Text ------------------------------------------------- */
+  --tx-text: rgb(36,36,36);          /* Font/Primary               */
+  --tx-text-strong: rgb(17,20,27);   /* headings                   */
+  --tx-text-secondary: rgb(73,68,68);/* Font/Primary Light         */
+  --tx-text-tertiary: rgb(153,153,153); /* Font/Primary Lighter    */
+  --tx-text-disabled: rgb(196,205,213);
+  --tx-text-on-dark: rgb(255,255,255);
+
+  /* ---- Surfaces / backgrounds ------------------------------- */
+  --tx-bg: rgb(239,239,239);         /* app canvas (grey)          */
+  --tx-bg-light: rgb(251,251,251);
+  --tx-surface: rgb(255,255,255);    /* cards                      */
+  --tx-surface-sunken: rgb(247,247,247); /* inset rows             */
+  --tx-surface-gray: rgb(239,239,239);
+
+  /* ---- Borders / strokes ------------------------------------ */
+  --tx-border: rgb(227,227,227);
+  --tx-border-strong: rgb(165,163,163);
+  --tx-border-input: rgb(236,236,236);
+  --tx-card-stroke: rgb(244,244,244);
+  --tx-divider: rgba(145,158,171,0.20);
+
+  /* ---- Semantic (MUI Minimal palette) ----------------------- */
+  --tx-success: rgb(34,197,94);
+  --tx-success-dark: rgb(17,141,87);
+  --tx-success-soft: rgba(34,197,94,0.16);
+  --tx-success-8: rgba(34,197,94,0.08);
+
+  --tx-error: rgb(255,86,48);
+  --tx-error-strong: rgb(230,53,53);
+  --tx-error-dark: rgb(183,29,24);
+  --tx-error-soft: rgba(255,86,48,0.16);
+  --tx-error-8: rgba(255,86,48,0.08);
+
+  --tx-warning: rgb(255,171,0);
+  --tx-warning-dark: rgb(183,110,0);
+  --tx-warning-soft: rgba(255,171,0,0.16);
+  --tx-warning-accent: rgb(254,194,63); /* the amber dot on file chips */
+
+  --tx-info: rgb(0,184,217);
+  --tx-info-dark: rgb(22,130,212);
+  --tx-info-soft: rgba(0,184,217,0.16);
+
+  /* ---- Attendance status (domain) --------------------------- */
+  --tx-attend-present: rgb(34,197,94);
+  --tx-attend-present-soft: rgb(222,244,228);   /* green grid cell  */
+  --tx-attend-absent: rgb(255,86,48);
+  --tx-attend-absent-soft: rgb(250,222,217);     /* red grid cell    */
+  --tx-attend-justified: rgb(61,110,253);        /* blue 'Justified' */
+  --tx-attend-rejected: rgb(230,53,53);          /* red 'Rejected'   */
+  --tx-attend-canceled: rgb(153,153,153);
+
+  /* ---- Neutral grey ramp (MUI) ------------------------------ */
+  --tx-grey-400: rgb(196,205,213);
+  --tx-grey-500: rgb(145,158,171);
+  --tx-grey-600: rgb(99,115,129);
+  --tx-grey-700: rgb(69,79,91);
+  --tx-grey-800: rgb(33,43,54);
+  --tx-grey-8: rgba(145,158,171,0.08);
+  --tx-grey-16: rgba(145,158,171,0.16);
+  --tx-grey-24: rgba(145,158,171,0.24);
+}
+
+/* Role theming — set data-role on a container to retheme --tx-accent. */
+[data-role="student"] { --tx-accent: var(--tx-student); --tx-accent-hover: rgb(200,128,18); --tx-accent-soft: rgba(227,147,27,0.12); }
+[data-role="profs"]   { --tx-accent: var(--tx-profs);   --tx-accent-hover: rgb(45,92,224);  --tx-accent-soft: rgba(61,110,253,0.10); }
+[data-role="admin"]   { --tx-accent: var(--tx-admin);   --tx-accent-hover: rgb(28,112,49);  --tx-accent-soft: rgba(36,138,61,0.12); }
