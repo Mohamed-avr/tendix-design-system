@@ -58,8 +58,8 @@ main{flex:1;min-width:0;padding:40px 48px 80px 40px}
 .code-copy{position:absolute;top:12px;right:12px;padding:5px 12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:8px;font-family:var(--tx-font-data,'Inter');font-size:12px;font-weight:600;color:rgba(255,255,255,.7);cursor:pointer;transition:background .12s}
 .code-copy:hover{background:rgba(255,255,255,.18);color:#fff}
 .code-copy.copied{color:#88d3b2;border-color:#88d3b2}
-pre.code{background:#191717;color:#f4f4f4;padding:22px 22px 22px;overflow-x:auto;font-family:var(--tx-font-data,'Inter',monospace);font-size:13px;line-height:1.8;margin:0;tab-size:2}
-.c{color:#706c6c} .k{color:#ffc87a} .s{color:#88d3b2} .t{color:#a5d4ff} .p{color:#f4f4f4} .cm{color:#88d3b2}
+pre.code{background:#0d1321;color:#e2e8f0;padding:22px 22px 22px;overflow-x:auto;font-family:var(--tx-font-data,'Inter',monospace);font-size:13px;line-height:1.8;margin:0;tab-size:2}
+.c{color:#64748b} .k{color:#fbbf24} .s{color:#6ee7b7} .t{color:#93c5fd} .p{color:#e2e8f0} .cm{color:#6ee7b7}
 
 /* ── platform tabs (Web / React Native) ── */
 .plat-tabs{display:flex;gap:8px;margin-bottom:14px}
@@ -113,23 +113,23 @@ pre.code{background:#191717;color:#f4f4f4;padding:22px 22px 22px;overflow-x:auto
 <aside id="sidebar">
   <div class="sidebar-group">
     <div class="sidebar-group-label">Getting started</div>
-    <a class="sidebar-item active" onclick="scrollTo('intro')">Introduction</a>
-    <a class="sidebar-item" onclick="scrollTo('install')">Installation</a>
-    <a class="sidebar-item" onclick="scrollTo('theming')">Theming</a>
-    <a class="sidebar-item" onclick="scrollTo('rn')">React Native <span class="sidebar-badge">NEW</span></a>
+    <a class="sidebar-item active" href="#intro"      onclick="navClick(this)">Introduction</a>
+    <a class="sidebar-item"        href="#install"    onclick="navClick(this)">Installation</a>
+    <a class="sidebar-item"        href="#theming"    onclick="navClick(this)">Theming</a>
+    <a class="sidebar-item"        href="#rn"         onclick="navClick(this)">React Native <span class="sidebar-badge">NEW</span></a>
   </div>
   <div class="sidebar-group">
     <div class="sidebar-group-label">Components</div>
-    <a class="sidebar-item" onclick="scrollTo('button')">Button</a>
-    <a class="sidebar-item" onclick="scrollTo('input')">Input</a>
-    <a class="sidebar-item" onclick="scrollTo('card')">Card</a>
-    <a class="sidebar-item" onclick="scrollTo('badge')">Badge</a>
-    <a class="sidebar-item" onclick="scrollTo('statusbadge')">StatusBadge</a>
-    <a class="sidebar-item" onclick="scrollTo('bottomnav')">BottomNav</a>
-    <a class="sidebar-item" onclick="scrollTo('checkbox')">Checkbox</a>
-    <a class="sidebar-item" onclick="scrollTo('switch')">Switch</a>
-    <a class="sidebar-item" onclick="scrollTo('avatar')">Avatar</a>
-    <a class="sidebar-item" onclick="scrollTo('tabs')">Tabs</a>
+    <a class="sidebar-item" href="#button"     onclick="navClick(this)">Button</a>
+    <a class="sidebar-item" href="#input"      onclick="navClick(this)">Input</a>
+    <a class="sidebar-item" href="#card"       onclick="navClick(this)">Card</a>
+    <a class="sidebar-item" href="#badge"      onclick="navClick(this)">Badge</a>
+    <a class="sidebar-item" href="#statusbadge" onclick="navClick(this)">StatusBadge</a>
+    <a class="sidebar-item" href="#bottomnav"  onclick="navClick(this)">BottomNav</a>
+    <a class="sidebar-item" href="#checkbox"   onclick="navClick(this)">Checkbox</a>
+    <a class="sidebar-item" href="#switch"     onclick="navClick(this)">Switch</a>
+    <a class="sidebar-item" href="#avatar"     onclick="navClick(this)">Avatar</a>
+    <a class="sidebar-item" href="#tabs"       onclick="navClick(this)">Tabs</a>
   </div>
 </aside>
 
@@ -274,6 +274,66 @@ npx expo install @expo-google-fonts/urbanist @expo-google-fonts/inter expo-font
 &lt;<span class="t">TxButton</span> role=<span class="s">"admin"</span> color=<span class="s">"accent"</span>&gt;Approve&lt;/<span class="t">TxButton</span>&gt;</pre>
     </div>
   </div>
+</section>
+
+<hr class="hr" />
+
+<!-- ═══ react native ═══ -->
+<section class="doc-section" id="rn">
+  <div class="doc-title">React Native</div>
+  <p class="doc-desc">The <code>react-native/</code> folder ships two files: <code>tokens.ts</code> — all <code>--tx-*</code> values as typed JS constants — and <code>theme.ts</code> — MD3 color schemes for React Native Paper, one per role. Copy the folder into your Expo project.</p>
+
+  <div class="doc-subtitle">Folder structure</div>
+  <div class="pc-card"><div class="code-wrap"><button class="code-copy" onclick="copy(this)">Copy</button>
+  <pre class="code">react-native/
+  tokens.ts   <span class="c">// Colors, Space, Radius, Shadow, FontFamily, FontSize…</span>
+  theme.ts    <span class="c">// studentTheme, profsTheme, adminTheme, getThemeForRole()</span></pre>
+  </div></div>
+
+  <div class="doc-subtitle">Usage</div>
+  <div class="pc-card"><div class="code-wrap"><button class="code-copy" onclick="copy(this)">Copy</button>
+  <pre class="code"><span class="k">import</span> { Colors, Space, Radius } <span class="k">from</span> <span class="s">'./react-native/tokens'</span>;
+<span class="k">import</span> { getThemeForRole }       <span class="k">from</span> <span class="s">'./react-native/theme'</span>;
+<span class="k">import</span> { PaperProvider }         <span class="k">from</span> <span class="s">'react-native-paper'</span>;
+
+<span class="c">// Wrap with the right role theme</span>
+<span class="k">export default function</span> App() {
+  <span class="k">const</span> role = useUserRole(); <span class="c">// 'student' | 'profs' | 'admin'</span>
+  <span class="k">return</span> (
+    &lt;<span class="t">PaperProvider</span> theme={getThemeForRole(role)}&gt;
+      &lt;<span class="t">RootNavigator</span> /&gt;
+    &lt;/<span class="t">PaperProvider</span>&gt;
+  );
+}
+
+<span class="c">// Use tokens in StyleSheet</span>
+<span class="k">const</span> styles = StyleSheet.create({
+  card: {
+    backgroundColor: Colors.surface,
+    borderRadius:    Radius.xl,        <span class="c">// 16</span>
+    padding:         Space[4],         <span class="c">// 16</span>
+  },
+  title: {
+    color:      Colors.textStrong,
+    fontSize:   FontSize.h3,           <span class="c">// 20</span>
+    fontWeight: FontWeight.bold,       <span class="c">// '700'</span>
+  },
+});</pre>
+  </div></div>
+
+  <div class="doc-subtitle">Token reference</div>
+  <table class="props-table">
+    <thead><tr><th>Export</th><th>Type</th><th>Example keys</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>Colors</td><td>Record&lt;string, string&gt;</td><td>surface, ink, student, profs, admin, success…</td><td>All brand colours</td></tr>
+      <tr><td>RoleAccents</td><td>Record&lt;role, string&gt;</td><td>student, profs, admin</td><td>Quick accent lookup</td></tr>
+      <tr><td>Space</td><td>Record&lt;number, number&gt;</td><td>1→4, 2→8, 4→16…</td><td>4px-base spacing grid</td></tr>
+      <tr><td>Radius</td><td>Record&lt;string, number&gt;</td><td>sm, md, lg, xl, 2xl, pill</td><td>Corner radius scale</td></tr>
+      <tr><td>FontFamily</td><td>Record&lt;string, string&gt;</td><td>display, ui, body, data</td><td>Urbanist / Inter</td></tr>
+      <tr><td>FontSize</td><td>Record&lt;string, number&gt;</td><td>xs, sm, base, lg, h1…</td><td>Type scale</td></tr>
+      <tr><td>Shadow</td><td>Record&lt;string, object&gt;</td><td>sm, md, card</td><td>RN shadow style objects</td></tr>
+    </tbody>
+  </table>
 </section>
 
 <hr class="hr" />
@@ -816,26 +876,42 @@ function switchPlat(comp, plat) {
   });
 }
 
-// ── sidebar active ──
-function scrollTo(id) {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+// ── sidebar routing ──
+function navClick(el) {
+  // immediate active update on click
+  document.querySelectorAll('.sidebar-item').forEach(a => a.classList.remove('active'));
+  el.classList.add('active');
+  // smooth scroll to target (let href handle the anchor, but smooth it)
+  const id = el.getAttribute('href').slice(1);
+  const target = document.getElementById(id);
+  if (target) {
+    event.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
+
+// keep active in sync while scrolling
+let scrollLock = false;
 const observer = new IntersectionObserver((entries) => {
+  if (scrollLock) return;
   entries.forEach(e => {
     if (e.isIntersecting) {
       document.querySelectorAll('.sidebar-item').forEach(a => a.classList.remove('active'));
-      const id = e.target.id;
-      const map = { intro:'intro', install:'install', theming:'theming', rn:'rn',
-        button:'button', input:'input', card:'card', badge:'badge',
-        statusbadge:'statusbadge', bottomnav:'bottomnav',
-        checkbox:'checkbox', switch:'switch', avatar:'avatar', tabs:'tabs' };
-      const item = [...document.querySelectorAll('.sidebar-item')]
-        .find(a => a.getAttribute('onclick')?.includes(`'${map[id]}'`));
+      const item = document.querySelector(`.sidebar-item[href="#${e.target.id}"]`);
       if (item) item.classList.add('active');
     }
   });
-}, { threshold: 0.15, rootMargin: '-60px 0px -60% 0px' });
+}, { threshold: 0.2, rootMargin: '-58px 0px -55% 0px' });
+
 document.querySelectorAll('.doc-section').forEach(s => observer.observe(s));
+
+// brief lock after click so observer doesn't fight the click
+document.querySelectorAll('.sidebar-item').forEach(a => {
+  a.addEventListener('click', () => {
+    scrollLock = true;
+    setTimeout(() => { scrollLock = false; }, 800);
+  });
+});
 </script>
 
 <script type="text/babel">
